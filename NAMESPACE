@@ -1,0 +1,4 @@
+useDynLib(rcss)
+importFrom(Rcpp, evalCpp)
+importFrom("stats", "qnorm", "sd")
+exportPattern("^[[:alpha:]]+")
