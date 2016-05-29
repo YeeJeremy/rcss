@@ -26,7 +26,7 @@ arma::vec TestPolicy(int start_position,
                      Rcpp::IntegerVector path_action_) {
   // R objects into C++
   const arma::ivec p_dims = path_.attr("dim");
-  const std::size_t n_dec = p_dims(0);
+  const int n_dec = p_dims(0);
   const std::size_t n_path = p_dims(1);
   const std::size_t n_dim = p_dims(2);
   const arma::cube path(path_.begin(), n_dec, n_path, n_dim, false);
@@ -55,7 +55,7 @@ arma::vec TestPolicy(int start_position,
   arma::mat reward(n_path, n_action * n_pos);
   arma::uword policy;
   if (full_control) {
-    for (std::size_t t = 0; t < n_dec; t++) {
+    for (int t = 0; t < n_dec; t++) {
       state = path(arma::span(t), arma::span::all, arma::span::all);
       reward = Rcpp::as<arma::mat>(Reward_(
           Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(state)), t + 1));
@@ -67,7 +67,7 @@ arma::vec TestPolicy(int start_position,
     }
   } else {
     arma::vec prob_weight(n_pos);
-    for (std::size_t t = 0; t < n_dec; t++) {
+    for (int t = 0; t < n_dec; t++) {
       state = path(arma::span(t), arma::span::all, arma::span::all);
       reward = Rcpp::as<arma::mat>(Reward_(
           Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(state)), t + 1));

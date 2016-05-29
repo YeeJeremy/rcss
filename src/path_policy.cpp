@@ -5,14 +5,14 @@
 #include <RcppArmadillo.h>
 #include <Rcpp.h>
 
-arma::cube PathPolicy(Rcpp::NumericVector path_,
-                      Rcpp::IntegerVector path_nn_,
-                      Rcpp::NumericVector control_,
-                      Rcpp::Function Reward_,
-                      Rcpp::NumericVector expected_) {
+arma::ucube PathPolicy(Rcpp::NumericVector path_,
+                       Rcpp::IntegerVector path_nn_,
+                       Rcpp::NumericVector control_,
+                       Rcpp::Function Reward_,
+                       Rcpp::NumericVector expected_) {
   // R objects into C++
   const arma::ivec p_dims = path_.attr("dim");
-  const std::size_t n_dec = p_dims(0);
+  const int n_dec = p_dims(0);
   const std::size_t n_path = p_dims(1);
   const std::size_t n_dim = p_dims(2);
   const arma::cube path(path_.begin(), n_dec, n_path, n_dim, false);
@@ -36,7 +36,7 @@ arma::cube PathPolicy(Rcpp::NumericVector path_,
   const std::size_t n_grid = e_dims(0);
   const arma::cube cont(expected_.begin(), n_grid, n_dim * n_pos, n_dec, false);
   // Finding the optimal action
-  arma::cube policy(n_dec, n_pos, n_path);
+  arma::ucube policy(n_dec, n_pos, n_path);
   arma::mat state(n_path, n_dim);
   arma::mat reward(n_path, n_action * n_pos);
   arma::mat temp_value1(n_grid, n_dim);
@@ -44,7 +44,8 @@ arma::cube PathPolicy(Rcpp::NumericVector path_,
   arma::mat compare_value(n_path, n_action);
   arma::uvec host(n_path);
   arma::uword best;
-  std::size_t t, p, a, n, i;
+  int t;
+  std::size_t p, a, n, i;
   if (full_control) {  // Full control
     for (t = 0; t < n_dec; t++) {
       state = path(arma::span(t), arma::span::all, arma::span::all);
