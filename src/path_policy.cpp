@@ -5,11 +5,11 @@
 #include <RcppArmadillo.h>
 #include <Rcpp.h>
 
-arma::ucube PathPolicy(Rcpp::NumericVector path_,
-                       Rcpp::IntegerVector path_nn_,
-                       Rcpp::NumericVector control_,
-                       Rcpp::Function Reward_,
-                       Rcpp::NumericVector expected_) {
+arma::cube PathPolicy(Rcpp::NumericVector path_,
+                      Rcpp::IntegerVector path_nn_,
+                      Rcpp::NumericVector control_,
+                      Rcpp::Function Reward_,
+                      Rcpp::NumericVector expected_) {
   // R objects into C++
   const arma::ivec p_dims = path_.attr("dim");
   const std::size_t n_dec = p_dims(0);
@@ -36,7 +36,7 @@ arma::ucube PathPolicy(Rcpp::NumericVector path_,
   const std::size_t n_grid = e_dims(0);
   const arma::cube cont(expected_.begin(), n_grid, n_dim * n_pos, n_dec, false);
   // Finding the optimal action
-  arma::ucube policy(n_dec, n_pos, n_path);
+  arma::cube policy(n_dec, n_pos, n_path);
   arma::mat state(n_path, n_dim);
   arma::mat reward(n_path, n_action * n_pos);
   arma::mat temp_value1(n_grid, n_dim);
