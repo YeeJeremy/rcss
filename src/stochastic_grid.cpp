@@ -8,8 +8,8 @@
 
 arma::mat StochasticGrid(Rcpp::NumericVector start_,
                          Rcpp::NumericVector disturb_,
-                         std::size_t n_grid,
-                         std::size_t max_iter,
+                         int n_grid,
+                         int max_iter,
                          bool warning) {
   // R objects to C++
   const arma::vec start(start_.begin(), start_.length(), false);
@@ -58,9 +58,9 @@ BEGIN_RCPP
         start(startSEXP);
     Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
         disturb(disturbSEXP);
-    Rcpp::traits::input_parameter<std::size_t>::type
+    Rcpp::traits::input_parameter<int>::type
         n_grid(n_gridSEXP);
-    Rcpp::traits::input_parameter<std::size_t>::type
+    Rcpp::traits::input_parameter<int>::type
         max_iter(max_iterSEXP);
     Rcpp::traits::input_parameter<bool>::type
         warning(warningSEXP);

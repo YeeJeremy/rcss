@@ -23,7 +23,7 @@ Rcpp::List FastBellman(Rcpp::NumericMatrix grid_,
                        Rcpp::NumericVector disturb_,
                        Rcpp::NumericVector weight,
                        Rcpp::Function Neighbour_,
-                       std::size_t n_smooth,
+                       int n_smooth,
                        Rcpp::Function SmoothNeighbour_);
 
 // Fast expected value function using nearest neighbours
@@ -33,7 +33,7 @@ arma::mat FastExpected(Rcpp::NumericMatrix grid_,
                        Rcpp::NumericVector disturb_,
                        Rcpp::NumericVector weight,
                        Rcpp::Function Neighbour_,
-                       std::size_t n_smooth,
+                       int n_smooth,
                        Rcpp::Function SmoothNeighbour_);
 
 #endif  // INST_INCLUDE_FAST_H_

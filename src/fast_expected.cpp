@@ -13,7 +13,7 @@ arma::mat FastExpected(Rcpp::NumericMatrix grid_,
                        Rcpp::NumericVector disturb_,
                        Rcpp::NumericVector weight,
                        Rcpp::Function Neighbour_,
-                       std::size_t n_smooth,
+                       int n_smooth,
                        Rcpp::Function SmoothNeighbour_) {
   // R objects to C++
   const std::size_t n_grid = grid_.nrow();
@@ -110,7 +110,7 @@ BEGIN_RCPP
         weight(weightSEXP);
     Rcpp::traits::input_parameter<Rcpp::Function>::type
         Neighbour(NeighbourSEXP);
-    Rcpp::traits::input_parameter<std::size_t>::type
+    Rcpp::traits::input_parameter<int>::type
         n_smooth(n_smoothSEXP);
     Rcpp::traits::input_parameter<Rcpp::Function>::type
         SmoothNeighbour(SmoothNeighbourSEXP);

@@ -30,7 +30,7 @@ Rcpp::List Bellman(Rcpp::NumericMatrix grid_,
                    Rcpp::NumericVector reward_,
                    Rcpp::NumericVector control_,
                    Rcpp::NumericVector disturb_,
-                   Rcpp::NumericVector disturb_weight);
+                   Rcpp::NumericVector weight);
 
 // Bellman recursion using nearest neighbours
 Rcpp::List FastBellman(Rcpp::NumericMatrix grid_,
@@ -38,8 +38,10 @@ Rcpp::List FastBellman(Rcpp::NumericMatrix grid_,
                        Rcpp::NumericVector control_,
                        Rcpp::IntegerMatrix r_index_,
                        Rcpp::NumericVector disturb_,
-                       Rcpp::NumericVector disturb_weight,
-                       Rcpp::Function Neighbour_);
+                       Rcpp::NumericVector weight,
+                       Rcpp::Function Neighbour_,
+                       int n_smooth,
+                       Rcpp::Function SmoothNeighbour_);
 
 // Perform bellman recursion using nearest neighbours
 Rcpp::List BellmanAccelerated(Rcpp::NumericMatrix grid_,
@@ -47,7 +49,7 @@ Rcpp::List BellmanAccelerated(Rcpp::NumericMatrix grid_,
                               Rcpp::NumericVector control_,
                               Rcpp::NumericVector disturb_,
                               Rcpp::NumericVector weight,
-                              std::size_t n_neighbour,
+                              int n_neighbour,
                               Rcpp::Function Neighbour_);
 
 #endif  // INST_INCLUDE_BELLMAN_H_

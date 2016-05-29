@@ -19,7 +19,7 @@ arma::uword NextPosition(const arma::vec &prob_weight) {
   return next_state;
 }
 
-arma::vec TestPolicy(std::size_t start_position,
+arma::vec TestPolicy(int start_position,
                      Rcpp::NumericVector path_,
                      Rcpp::NumericVector control_,
                      Rcpp::Function Reward_,
@@ -91,7 +91,7 @@ RcppExport SEXP rcss_TestPolicy(SEXP start_positionSEXP,
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter<std::size_t>::type
+    Rcpp::traits::input_parameter<int>::type
         start_position(start_positionSEXP);
     Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
         path(pathSEXP);

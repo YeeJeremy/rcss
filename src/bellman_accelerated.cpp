@@ -13,7 +13,7 @@ Rcpp::List BellmanAccelerated(Rcpp::NumericMatrix grid_,
                               Rcpp::NumericVector control_,
                               Rcpp::NumericVector disturb_,
                               Rcpp::NumericVector weight,
-                              std::size_t n_neighbour,
+                              int n_neighbour,
                               Rcpp::Function Neighbour_) {
   // Passing R objects to C++
   const std::size_t n_grid = grid_.nrow();
@@ -119,7 +119,7 @@ BEGIN_RCPP
         disturb(disturbSEXP);
     Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
         weight(weightSEXP);
-    Rcpp::traits::input_parameter<std::size_t>::type
+    Rcpp::traits::input_parameter<int>::type
         n_neighbour(n_neighbourSEXP);
     Rcpp::traits::input_parameter<Rcpp::Function>::type
         Neighbour(NeighbourSEXP);

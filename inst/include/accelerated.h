@@ -19,7 +19,7 @@ Rcpp::List BellmanAccelerated(Rcpp::NumericMatrix grid_,
                               Rcpp::NumericVector control_,
                               Rcpp::NumericVector disturb_,
                               Rcpp::NumericVector weight,
-                              std::size_t n_neighbour,
+                              int n_neighbour,
                               Rcpp::Function Neighbour_);
 
 // Perform bellman recursion using row rearrangement + nearest neighbours
@@ -27,7 +27,7 @@ arma::mat ExpectedAccelerated(Rcpp::NumericMatrix grid_,
                               Rcpp::NumericMatrix value_,
                               Rcpp::NumericVector disturb_,
                               Rcpp::NumericVector weight,
-                              std::size_t n_neighbour,
+                              int n_neighbour,
                               Rcpp::Function Neighbour_);
 
 
