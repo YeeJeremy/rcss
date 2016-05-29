@@ -28,8 +28,7 @@ FastMartingale <- function(value, path, path_nn, disturb, weight, grid,
     if (missing(path_nn)) {
         cat("\nComputing path_neighbour...")
         query <- matrix(data = path, ncol = v_dims[2])
-        path_nn <- .Call('rflann_Neighbour', PACKAGE = 'rflann',
-                                query, grid, 1, "kdtree", 0, 1)$indices
+        path_nn <- rflann::Neighbour(query, grid, 1, "kdtree", 0, 1)$indices
     }
     if (!missing(Neighbour)) {
         ## If user provides a function
@@ -38,8 +37,7 @@ FastMartingale <- function(value, path, path_nn, disturb, weight, grid,
     } else {
         ## Otherwise use rflann
         Func <- function(query, ref) {
-            return(.Call('rflann_Neighbour', PACKAGE = 'rflann', query, ref,
-                         1, "kdtree", 0, 1)$indices)
+            rflann::Neighbour(query, ref, 1, "kdtree", 0, 1)$indices
         }
         output <- .Call('rcss_FastMartingale', PACKAGE = 'rcss', value, disturb,
                         weight, path, path_nn, Func, grid, control)      

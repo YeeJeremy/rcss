@@ -18,15 +18,13 @@ FastBellman <- function(grid, reward, control, disturb, weight, r_index,
     ## Call the C++ functions
     if (missing(Neighbour)) {
         Neighbour <- function(query, ref) {
-            .Call('rflann_Neighbour', PACKAGE = 'rflann', query, ref,
-                  1, "kdtree", 0, 1)$indices
+            rflann::Neighbour(query, ref, 1, "kdtree", 0, 1)$indices
         }
     }
     if (missing(SmoothNeighbour)) {
         SmoothNeighbour <- function(query, ref) {
-            .Call('rflann_Neighbour', PACKAGE = 'rflann', query, ref,
-                  smooth, "kdtree", 0, 1)$indices
-        }     
+            rflann::Neighbour(query, ref, smooth, "kdtree", 0, 1)$indices
+        }
     }    
     output <- .Call('rcss_FastBellman', PACKAGE = 'rcss', grid, reward,
                     control, r_index, disturb, weight, Neighbour, smooth,

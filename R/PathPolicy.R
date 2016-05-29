@@ -15,8 +15,7 @@ PathPolicy <- function(path, path_nn, control, Reward, expected, grid) {
     if (missing(path_nn)) {
         if (missing(grid)) stop("grid is missing")
         query <- matrix(data = path, ncol = p_dims[3])
-        path_nn <- .Call('rflann_Neighbour', PACKAGE = 'rflann',
-                         query, grid, 1, "kdtree", 0, 1)$indices
+        path_nn <- rflann::Neighbour(query, grid, 1, "kdtree", 0, 1)$indices
     }
     .Call('rcss_PathPolicy', PACKAGE = 'rcss', path, path_nn, control, Reward,
           expected)

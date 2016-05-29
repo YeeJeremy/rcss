@@ -23,14 +23,12 @@ FastMartingale2 <- function(grid, value, expected, path_disturb, path_nn,
     if (missing(path_nn)) {
         cat("\nComputing path_nn...")
         query <- matrix(data = path, ncol = v_dims[2])
-        path_nn <- .Call('rflann_Neighbour', PACKAGE = 'rflann',
-                         query, grid, 1, "kdtree", 0, 1)$indices
+        path_nn <- rflann::Neighbour(query, grid, 1, "kdtree", 0, 1)$indices
     }
     if (missing(Neighbour)) {
         ## Otherwise use rflann
         Func <- function(query, ref) {
-            return(.Call('rflann_Neighbour', PACKAGE = 'rflann', query, ref,
-                         1, "kdtree", 0, 1)$indices)
+            rflann::Neighbour(query, ref, 1, "kdtree", 0, 1)$indices
         }
     }
     output <- .Call('rcss_FastMartingale2', PACKAGE = 'rcss', grid, value,

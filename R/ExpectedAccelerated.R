@@ -13,9 +13,8 @@ ExpectedAccelerated <- function(grid, value, disturb, weight, k, Neighbour) {
     ## Call the C++ function
     if (missing(Neighbour)) {
         Neighbour <- function(query, ref) {
-            .Call('rflann_Neighbour', PACKAGE = 'rflann', query, ref,
-                  k, "kdtree", 0, 1)$indices
-        }
+            rflann::Neighbour(query, ref, k, "kdtree", 0, 1)$indices
+        }       
     }
     .Call('rcss_ExpectedAccelerated', PACKAGE = 'rcss', grid, value, disturb,
           weight, k, Neighbour)

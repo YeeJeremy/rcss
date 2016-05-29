@@ -10,17 +10,15 @@ FastExpected <- function(grid, value, disturb, weight, r_index,
     if (smooth >= nrow(grid)) stop("smooth must be < nrow(grid)")
     ## Call the C++ functions
     if (missing(Neighbour)) {
-        Neigbour <- function(query, ref) {
-            .Call('rflann_Neighbour', PACKAGE = 'rflann', query, ref,
-                  1, "kdtree", 0, 1)$indices
+        Neighbour <- function(query, ref) {
+            rflann::Neighbour(query, ref, 1, "kdtree", 0, 1)$indices
         }
     }
     if (missing(SmoothNeighbour)) {
         SmoothNeighbour <- function(query, ref) {
-            .Call('rflann_Neighbour', PACKAGE = 'rflann', query, ref,
-                  smooth, "kdtree", 0, 1)$indices
-        }     
-    }    
+            rflann::Neighbour(query, ref, smooth, "kdtree", 0, 1)$indices
+        }
+    }   
     .Call('rcss_FastExpected', PACKAGE = 'rcss', grid, value, r_index,
-          disturb, weight, Neigbour, smooth, SmoothNeighbour)
+          disturb, weight, Neighbour, smooth, SmoothNeighbour)
 }

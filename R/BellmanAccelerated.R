@@ -22,8 +22,7 @@ BellmanAccelerated <- function(grid, reward, control, disturb, weight, k,
                         control, disturb, weight, k, Neighbour)    
     } else {
         Func <- function(query, ref) {
-            .Call('rflann_Neighbour', PACKAGE = 'rflann', query, ref,
-                  k, "kdtree", 0, 1)$indices
+            rflann::Neighbour(query, ref, k, "kdtree", 0, 1)$indices
         }
         output <- .Call('rcss_BellmanAccelerated', PACKAGE = 'rcss', grid,
                         reward, control, disturb, weight, k, Func)
