@@ -9,8 +9,8 @@ arma::uword NextPosition(const arma::vec &prob_weight) {
   const std::size_t n_pos = prob_weight.n_elem;
   const arma::vec cum_prob = arma::cumsum(prob_weight);
   const double rand_unif = R::runif(0, 1);
-  arma::uword next_state;
-  for (std::size_t i = 0; i < n_pos; i++) {
+  arma::uword next_state = 0;
+  for (std::size_t i = 1; i < n_pos; i++) {
     if (rand_unif <= cum_prob(i)) {
       next_state = i;
       break;
