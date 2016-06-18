@@ -2,7 +2,9 @@
 // Fast methods for FastBellman and FastExpected
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifdef _OPENMP
 #include <omp.h>
+#endif
 #include "inst/include/fast.h"
 
 // Block diagonal matrix

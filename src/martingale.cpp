@@ -2,7 +2,9 @@
 // Computing the martingale increments using the row rearrangement operator
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifdef _OPENMP
 #include <omp.h>
+#endif
 #include <RcppArmadillo.h>
 #include <Rcpp.h>
 

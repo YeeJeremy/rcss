@@ -4,7 +4,9 @@
 
 #include "inst/include/bellman.h"
 #include "inst/include/accelerated.h"
+#ifdef _OPENMP
 #include <omp.h>
+#endif
 #include <Rcpp.h>
 
 // Perform bellman recursion using row rearrangement + nearest neighbours

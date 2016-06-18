@@ -2,7 +2,9 @@
 // Slow methods for Bellman and Expected
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifdef _OPENMP
 #include <omp.h>
+#endif
 #include "inst/include/slow.h"
 
 // Finds the maximising subgradient

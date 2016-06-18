@@ -2,7 +2,9 @@
 // Determining the optimal action and corresponding subgradient
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifdef _OPENMP
 #include <omp.h>
+#endif
 #include "inst/include/bellman.h"
 
 void BellmanOptimal(const arma::mat& grid,
