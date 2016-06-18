@@ -89,7 +89,6 @@ Rcpp::List Duality(Rcpp::NumericVector path_,
       }
     }
   } else {  // Positions evolve randomly
-    std::size_t k;
     double expected;
     arma::rowvec prob_weight(n_pos);
     for (t = (n_dec - 2); t >= 0; t--) {
