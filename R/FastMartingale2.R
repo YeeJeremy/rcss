@@ -21,7 +21,7 @@ FastMartingale2 <- function(grid, value, expected, path_disturb, path_nn,
     if (!all(v_dims == e_dims)) stop("!all(dim(value) == dim(expected))")
     ## Call the C++ functions
     if (missing(path_nn)) {
-        cat("\nComputing path_nn...")
+        cat("Computing path_nn...")
         query <- matrix(data = path, ncol = v_dims[2])
         path_nn <- rflann::Neighbour(query, grid, 1, "kdtree", 0, 1)$indices
     }
