@@ -193,6 +193,7 @@ The above gives us the interval **(4.45, 4.50)**.
 Tighter bounds can be achived by either improving the value function approximations by using:
 * a more dense grid
 * a larger disturbance sampling
+
 or by obtaining more suitable martingale increments through 
 * a larger number of sample paths
 * a larger number of nested simulations
