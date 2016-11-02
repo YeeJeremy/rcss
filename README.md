@@ -13,7 +13,7 @@ A convex switching system is basically a Markov decision process with:
 * a finite number of time points
 * a Markov process consisting of:
       1. a controlled Markov chain with a finite number of possible realizations (positions) 
-      2. a continuous process that evolves linearly i.e. **X<sub>t+1</sub> = X<sub>t+1</sub> A<sub>t</sub>**
+      2. a continuous process that evolves linearly i.e. **X<sub>t+1</sub> = W<sub>t+1</sub> X<sub>t</sub>**
       where **W<sub>t+1</sub>** is a matrix with random entries
 * reward functions that are convex and Lipschitz continuous in the continuous 
   process
