@@ -25,10 +25,11 @@ The following R code demonstrates this.
 
 ## Example: Bermuda Put Option - Value Function Approximation
 
-Let us consider the valuation of a Bermuda put option with strike price 
-**40** and expiry date of **1** year. We assume the option is exercisable at 
-51 evenly spaced time points, including one at beginning and one at the end
-of the year. We first set our parameters.
+Let us consider the valuation of a Bermuda put option with strike
+price **40** and expiry date of **1** year. The underlying asset price
+follows a geometric Brownian motion. We assume the option is
+exercisable at 51 evenly spaced time points, including one at
+beginning and one at the end of the year. We first set our parameters.
 
 ~~~
 # Parameters
