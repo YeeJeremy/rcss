@@ -97,14 +97,9 @@ quantile <- qnorm(seq(0, 1, length = (n_disturb + 2))[c(-1, -(n_disturb + 2))])
 disturb[2, 2,] <- exp((rate - 0.5 * vol^2) * step + vol * sqrt(step) * quantile)
 ~~~
 
-Now we are ready to perform the Bellman recursion using any of the
-following 3 methods (listed in order of computational speed).
+Now we are ready to perform the Bellman recursion using the fast method.
 
 ~~~
-# Backwards induction
-bellman <- Bellman(grid, reward, control, disturb, weight)
-# Accelerated backwards induction
-bellman <- BellmanAccelerated(grid, reward, control, disturb, weight, k = 2)
 # Fast backwards induction
 r_index <- matrix(c(2, 2), ncol = 2)
 bellman <- FastBellman(grid, reward, control, disturb, weight, r_index)
