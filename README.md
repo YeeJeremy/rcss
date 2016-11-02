@@ -194,5 +194,5 @@ or by obtaining more suitable martingale increments through
 * a larger number of nested simulations
 
 The above methods are very versatile and we have employed it for the purpose of option valutions,
-optimal resource extraction, partially oberservable Markov decision processes and optimal 
+optimal resource extraction, partially observable Markov decision processes and optimal 
 battery control.
