@@ -63,11 +63,11 @@ control <- matrix(c(c(1, 1), c(2, 1)), nrow = 2, byrow = TRUE)
 ~~~
 
 Next, we define an equally spaced grid ranging from 10 to 100 and
-comprising 91 grid points.
+comprising 181 grid points.
 
 ~~~~
 # Grid
-n_grid<-91
+n_grid <- 181
 grid <- as.matrix(cbind(rep(1, n_grid), seq(10, 100, length = n_grid)))
 ~~~
 
@@ -93,7 +93,7 @@ distributed across time.
 
 ~~~
 # Disturbance  discretization
-n_disturb <- 1000 # number of disturbances
+n_disturb <- 10000 # number of disturbances
 weight <- rep(1/n_disturb, n_disturb) # neights
 disturb <- array(0, dim = c(2, 2, n_disturb))
 disturb[1, 1,] <- 1
@@ -133,8 +133,9 @@ the nested simulation. They will be used to calculate the required martingale
 increments.
 
 ~~~
+set.seed(123)
 # Paths
-n_path <- 100
+n_path <- 500
 path_disturb <- array(0, dim = c(2, 2, n_dec - 1, n_path))
 path_disturb[1,1,,] <- 1
 rand1 <- rnorm(((n_dec - 1) * n_path) / 2)
@@ -143,7 +144,7 @@ path_disturb[2,2,,] <- exp((rate - 0.5 * vol^2) * step + vol * sqrt(step) * rand
 path <- Path(start, path_disturb)
 
 # Subsimulation
-n_subsim <- 100
+n_subsim <- 500
 subsim <- array(0, dim = c(2, 2, n_subsim, n_path, n_dec - 1))
 subsim[1,1,,,] <- 1
 rand2 <- rnorm((n_subsim * n_path * (n_dec - 1))/2)
@@ -185,7 +186,7 @@ duality <- Duality(path, control, RewardFunc, mart, policy)
 GetBounds(duality, 0.05, 2)
 ~~~
 
-The above gives us the interval **(4.45, 4.50)**. 
+The above gives us the interval **(4.475202, 4.480843)**. 
 
 ## Conclusion
 
