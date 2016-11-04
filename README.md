@@ -1,5 +1,8 @@
 # *rcss* - R Package
 
+## Authors
+Juri Hinz and Jeremy Yee
+
 ## Description
 
 R package for the numerical treatment of convex switching
