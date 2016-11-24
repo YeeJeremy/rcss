@@ -10,6 +10,9 @@ systems. Requires the *rflann* package (also found on my github
 account). Please contact me by email (jeremyyee@outlook.com.au) or
 through my github account to report any issues.
 
+An implementation in the *Julia* language is also available on my
+GitHub page.
+
 ## Problem Setting
 
 A convex switching system is basically a Markov decision process with:
@@ -65,7 +68,7 @@ control <- matrix(c(c(1, 1), c(2, 1)), nrow = 2, byrow = TRUE)
 Next, we define an equally spaced grid ranging from 10 to 100 and
 comprising 181 grid points.
 
-~~~~
+~~~
 # Grid
 n_grid <- 181
 grid <- as.matrix(cbind(rep(1, n_grid), seq(10, 100, length = n_grid)))
