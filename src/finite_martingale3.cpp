@@ -72,7 +72,7 @@ arma::cube FiniteMartingale3(Rcpp::NumericMatrix grid_,
       temp_expected = expected.cols(l + j * n_dim, l + (j + 1) * n_dim - 1);
       temp_value = value.cols(m + j * n_dim, m + (j + 1) * n_dim - 1);
       mart.tube(i, j) = arma::sum(temp_expected.rows(host) % state, 1) -
-          arma::trans(arma::sum(temp_value.rows(host2) % disturb_state, 1));
+          arma::sum(temp_value.rows(host2) % disturb_state, 1);
     }
   }
   if (full_control) {  // If full control, then done
