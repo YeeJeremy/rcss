@@ -1,18 +1,17 @@
 // Copyright 2015 <Jeremy Yee> <jeremyyee@outlook.com.au>
-// Computing the martingale increments using expected value and neighbours
+// Martingale increments for finite distribution using row-rearrangement
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <RcppArmadillo.h>
 #include <Rcpp.h>
 
 //[[Rcpp::export]]
-arma::cube FastMartingale2(Rcpp::NumericMatrix grid_,
-			   Rcpp::NumericVector value_,
-			   Rcpp::NumericVector expected_,
-			   Rcpp::NumericVector path_disturb_,
-			   Rcpp::IntegerVector path_nn_,
-			   Rcpp::Function Neighbour_,
-			   Rcpp::NumericVector control_) {
+arma::cube FiniteMartingale1(Rcpp::NumericMatrix grid_,
+                             Rcpp::NumericVector value_,
+                             Rcpp::NumericVector expected_,
+                             Rcpp::NumericVector path_disturb_,
+                             Rcpp::IntegerVector path_nn_,
+                             Rcpp::NumericVector control_) {
   // R objects to C++
   const arma::ivec g_dims = grid_.attr("dim");
   const std::size_t n_grid = g_dims(0);
@@ -41,39 +40,32 @@ arma::cube FastMartingale2(Rcpp::NumericMatrix grid_,
   arma::cube mart(n_dec - 1, n_pos, n_path);
   arma::mat state(n_path, n_dim);
   arma::mat disturb_state(n_path, n_dim);
+  arma::mat disturb_state_t(n_dim, n_path);
   arma::mat temp_value(n_grid, n_dim);
   arma::mat temp_expected(n_grid, n_dim);
   const arma::umat path_nn2 = arma::trans(arma::conv_to<arma::umat>::from(path_nn));
   arma::uvec host(n_path);
-  Rcpp::IntegerVector r_host2(n_path);
-  arma::uvec host2(n_path);
-  arma::rowvec temp_state(n_dim);
   std::size_t i, j, k, l, m, n;
   Rcpp::Rcout << "At dec: ";
   for (i = 0; i < (n_dec -1); i++) {
     Rcpp::Rcout << i << "...";
     host = path_nn2.col(i) - 1;
-    state = grid.rows(host); // Finding the nearest neighbours for points
+    state = grid.rows(host);  // Finding the nearest neighbours for points
     // Disturbing the grid
     for (k = 0; k < n_path; k++) {
       n = k * (n_dec - 1) + i;
       disturb_state.row(k) = state.row(k) * 
 	arma::trans(path_disturb.cols(n * n_dim, (n + 1) * n_dim - 1));
     }
-    // Finding nearest neighbours of disturbed paths
-    r_host2 = 
-      Neighbour_(Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(disturb_state)),
-		 Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(grid)));
-    host2 = Rcpp::as<arma::uvec>(r_host2);
-    host2 -= 1;  // R indexing to C++
+    disturb_state_t = disturb_state.t();
     // Calculating the martingale increments
-    l = i * n_dim * n_pos;
-    m = (i + 1) * n_dim * n_pos;
+    l = i * n_dim * n_pos;  // start index for expected array
+    m = (i + 1) * n_dim * n_pos;  // start index for value array
     for (j = 0; j < n_pos; j++) {
       temp_expected = expected.cols(l + j * n_dim, l + (j + 1) * n_dim - 1);
       temp_value = value.cols(m + j * n_dim, m + (j + 1) * n_dim - 1);
       mart.tube(i, j) = arma::sum(temp_expected.rows(host) % state, 1) -
-	arma::sum(temp_value.rows(host2) % disturb_state, 1);
+          arma::trans(arma::max(temp_value * disturb_state_t, 0));
     }
   }
   if (full_control) {  // If full control, then done
@@ -90,7 +82,7 @@ arma::cube FastMartingale2(Rcpp::NumericMatrix grid_,
 	  prob_weight = control.tube(j, k);
 	  mart2(arma::span(i), arma::span(k),
 		arma::span(j * n_path, (j + 1) * n_path - 1)) =
-	    prob_weight * temp_mart;
+              prob_weight * temp_mart;
 	}
       }
     }

@@ -19,3 +19,7 @@
 /src/stochastic_grid.o
 /src/symbols.rds
 /src/test_policy.o
+/src/RcppExports.o
+/src/finite_martingale1.o
+/src/finite_martingale3.o
+/src/wrong_martingale.o

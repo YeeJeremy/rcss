@@ -1,9 +1,9 @@
 ## Copyright 2015 <Jeremy Yee> <jeremyyee@outlook.com.au>
-## Computing the martingale increments using nearest neighbours
+## Computing the martingale increments for finite distribution case
 ################################################################################
 
-FastMartingale2 <- function(grid, value, expected, path_disturb, path_nn,
-                            control, Neighbour, path) {
+FiniteMartingale <- function(grid, value, expected, path_disturb, path_nn,
+                             control, path, build, Neighbour) {
 
     ## Making sure the input are in an acceptable format
     v_dims <- dim(value)
@@ -25,14 +25,21 @@ FastMartingale2 <- function(grid, value, expected, path_disturb, path_nn,
         query <- matrix(data = path, ncol = v_dims[2])
         path_nn <- rflann::Neighbour(query, grid, 1, "kdtree", 0, 1)$indices
     }
-    if (missing(Neighbour)) {
-        ## Otherwise use rflann
-        Func <- function(query, ref) {
-            rflann::Neighbour(query, ref, 1, "kdtree", 0, 1)$indices
+    if (build == "fast") {
+        if (missing(Neighbour)) {
+            ## Otherwise use rflann
+            Func <- function(query, ref) {
+                rflann::Neighbour(query, ref, 1, "kdtree", 0, 1)$indices
+            }
         }
+        output <- .Call('rcss_FiniteMartingale3', PACKAGE = 'rcss', grid, value,
+                        expected, path_disturb, path_nn, Func, control)
+    } else if (build == "slow") {
+         output <- .Call('rcss_FiniteMartingale1', PACKAGE = 'rcss', grid, value,
+                        expected, path_disturb, path_nn, control)
+    } else {
+        stop("no valid build method given")
     }
-    output <- .Call('rcss_FastMartingale2', PACKAGE = 'rcss', grid, value,
-                    expected, path_disturb, path_nn, Func, control)
     if (length(dim(control)) == 2) {  ## 3 dim if full control
         return(output)
     } else if (length(dim(control)) == 3) {  ## 4 dim if partial control

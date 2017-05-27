@@ -120,23 +120,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// FastMartingale2
-arma::cube FastMartingale2(Rcpp::NumericMatrix grid_, Rcpp::NumericVector value_, Rcpp::NumericVector expected_, Rcpp::NumericVector path_disturb_, Rcpp::IntegerVector path_nn_, Rcpp::Function Neighbour_, Rcpp::NumericVector control_);
-RcppExport SEXP rcss_FastMartingale2(SEXP grid_SEXP, SEXP value_SEXP, SEXP expected_SEXP, SEXP path_disturb_SEXP, SEXP path_nn_SEXP, SEXP Neighbour_SEXP, SEXP control_SEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type grid_(grid_SEXP);
-    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type value_(value_SEXP);
-    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type expected_(expected_SEXP);
-    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type path_disturb_(path_disturb_SEXP);
-    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type path_nn_(path_nn_SEXP);
-    Rcpp::traits::input_parameter< Rcpp::Function >::type Neighbour_(Neighbour_SEXP);
-    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type control_(control_SEXP);
-    rcpp_result_gen = Rcpp::wrap(FastMartingale2(grid_, value_, expected_, path_disturb_, path_nn_, Neighbour_, control_));
-    return rcpp_result_gen;
-END_RCPP
-}
 // FastMartingale
 arma::cube FastMartingale(Rcpp::NumericVector value_, Rcpp::NumericVector disturb_, Rcpp::NumericVector weight_, Rcpp::NumericVector path_, Rcpp::IntegerVector path_nn_, Rcpp::Function Neighbour_, Rcpp::NumericMatrix grid_, Rcpp::NumericVector control_);
 RcppExport SEXP rcss_FastMartingale(SEXP value_SEXP, SEXP disturb_SEXP, SEXP weight_SEXP, SEXP path_SEXP, SEXP path_nn_SEXP, SEXP Neighbour_SEXP, SEXP grid_SEXP, SEXP control_SEXP) {
@@ -152,6 +135,39 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type grid_(grid_SEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type control_(control_SEXP);
     rcpp_result_gen = Rcpp::wrap(FastMartingale(value_, disturb_, weight_, path_, path_nn_, Neighbour_, grid_, control_));
+    return rcpp_result_gen;
+END_RCPP
+}
+// FiniteMartingale1
+arma::cube FiniteMartingale1(Rcpp::NumericMatrix grid_, Rcpp::NumericVector value_, Rcpp::NumericVector expected_, Rcpp::NumericVector path_disturb_, Rcpp::IntegerVector path_nn_, Rcpp::NumericVector control_);
+RcppExport SEXP rcss_FiniteMartingale1(SEXP grid_SEXP, SEXP value_SEXP, SEXP expected_SEXP, SEXP path_disturb_SEXP, SEXP path_nn_SEXP, SEXP control_SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type grid_(grid_SEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type value_(value_SEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type expected_(expected_SEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type path_disturb_(path_disturb_SEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type path_nn_(path_nn_SEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type control_(control_SEXP);
+    rcpp_result_gen = Rcpp::wrap(FiniteMartingale1(grid_, value_, expected_, path_disturb_, path_nn_, control_));
+    return rcpp_result_gen;
+END_RCPP
+}
+// FiniteMartingale3
+arma::cube FiniteMartingale3(Rcpp::NumericMatrix grid_, Rcpp::NumericVector value_, Rcpp::NumericVector expected_, Rcpp::NumericVector path_disturb_, Rcpp::IntegerVector path_nn_, Rcpp::Function Neighbour_, Rcpp::NumericVector control_);
+RcppExport SEXP rcss_FiniteMartingale3(SEXP grid_SEXP, SEXP value_SEXP, SEXP expected_SEXP, SEXP path_disturb_SEXP, SEXP path_nn_SEXP, SEXP Neighbour_SEXP, SEXP control_SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type grid_(grid_SEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type value_(value_SEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type expected_(expected_SEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type path_disturb_(path_disturb_SEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type path_nn_(path_nn_SEXP);
+    Rcpp::traits::input_parameter< Rcpp::Function >::type Neighbour_(Neighbour_SEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type control_(control_SEXP);
+    rcpp_result_gen = Rcpp::wrap(FiniteMartingale3(grid_, value_, expected_, path_disturb_, path_nn_, Neighbour_, control_));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -239,6 +255,20 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::Function >::type Reward_(Reward_SEXP);
     Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type path_action_(path_action_SEXP);
     rcpp_result_gen = Rcpp::wrap(TestPolicy2(start_position, path_, control_, Reward_, path_action_));
+    return rcpp_result_gen;
+END_RCPP
+}
+// WrongMartingale
+arma::cube WrongMartingale(Rcpp::NumericVector value_, Rcpp::NumericVector expected_, Rcpp::NumericVector path_, Rcpp::NumericVector control_);
+RcppExport SEXP rcss_WrongMartingale(SEXP value_SEXP, SEXP expected_SEXP, SEXP path_SEXP, SEXP control_SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type value_(value_SEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type expected_(expected_SEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type path_(path_SEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type control_(control_SEXP);
+    rcpp_result_gen = Rcpp::wrap(WrongMartingale(value_, expected_, path_, control_));
     return rcpp_result_gen;
 END_RCPP
 }

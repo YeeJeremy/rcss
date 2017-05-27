@@ -1,10 +1,10 @@
-\name{FastMartingale2}
-\alias{FastMartingale2}
-\title{Fast Approximate Martingales -- Experimental}
-\description{Experimental function. Will be studied in a subsequent paper.}
+\name{FiniteMartingale}
+\alias{FiniteMartingale}
+\title{Finite Martingales}
+\description{Compute the martingale increments for finite distribution case.}
 \usage{
-FastMartingale2(grid, value, expected, path_disturb, path_nn, control,
-                Neighbour, path)
+FiniteMartingale(grid, value, expected, path_disturb, path_nn, control,
+                 path, build, Neighbour)
 }
 \arguments{
   \item{grid}{Matrix representing the grid, whose i-th row matrix [i,]
@@ -33,12 +33,14 @@ FastMartingale2(grid, value, expected, path_disturb, path_nn, control,
 	the probability of moving to position k after applying action j
 	to position i.}
     }
-  } 
+  }
+  \item{path}{3-dimensional array representing the generated paths.
+    Array [i,j,] represents the state at time i for sample path j.}
+  \item{build}{string indicating which build method used to obtain
+    expected value functions: "fast" and "slow".}  
   \item{Neighbour}{Optional function to calculate the nearest
     neighbours. If not provided, the Neighbour function from the
     rflann package is used instead.}
-  \item{path}{3-dimensional array representing the generated paths.
-    Array [i,j,] represents the state at time i for sample path j.}
 }
 \value{
   Two possible outputs:
@@ -57,21 +59,21 @@ grid <- as.matrix(cbind(rep(1, 91), c(seq(10, 100, length = 91))))
 disturb <- array(0, dim = c(2, 2, 10))
 disturb[1,1,] <- 1
 disturb[2,2,] <- exp((0.06 - 0.5 * 0.2^2) * 0.02 + 0.2 * sqrt(0.02) * rnorm(10))
-disturb_weight <- rep(1 / 10, 10)
-control_mat <- matrix(c(c(1, 1), c(2, 1)), nrow = 2, byrow = TRUE)
+weight <- rep(1 / 10, 10)
+control <- matrix(c(c(1, 1), c(2, 1)), nrow = 2, byrow = TRUE)
 reward <- array(0, dim = c(91, 2, 2, 2, 51))
 reward[grid[,2] <= 4,1,2,2,] <- 40
 reward[grid[,2] <= 4,2,2,2,] <- -1
 r_index <- matrix(c(2, 2), ncol = 2)
-bellman <- FastBellman(grid, reward, control_mat, disturb, disturb_weight, r_index)
+bellman <- FastBellman(grid, reward, control, disturb, weight, r_index)
 path_disturb <- array(0, dim = c(2, 2, 50, 100))
 path_disturb[1,1,,] <- 1
 path_disturb[2,2,,] <- exp((0.06 - 0.5 * 0.2^2) * 0.02 + 0.2 * sqrt(0.02) * rnorm(5000))
 start <- c(1, 36)
 path <- Path(start, path_disturb)
 path_nn <- Neighbour(matrix(path, ncol = 2), grid, 1, "kdtree", 0, 1)$indices
-mart <- FastMartingale2(grid, bellman$value, bellman$expected,
-                        path_disturb, path_nn, control_mat, path = path)
+mart <- FiniteMartingale(grid, bellman$value, bellman$expected,
+                         path_disturb, path_nn, control, path, "fast")
 }
 \author{Jeremy Yee}
 
