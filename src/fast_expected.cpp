@@ -7,6 +7,7 @@
 #include <Rcpp.h>
 
 // Bellman recursion using nearest neighbours
+//[[Rcpp::export]]
 arma::mat FastExpected(Rcpp::NumericMatrix grid_,
                        Rcpp::NumericMatrix value_,
                        Rcpp::IntegerMatrix r_index_,
@@ -84,39 +85,4 @@ arma::mat FastExpected(Rcpp::NumericMatrix grid_,
     continuation = Smooth(grid, continuation, smooth_neighbour);
   }
   return continuation;
-}
-
-// Export function to R
-RcppExport SEXP rcss_FastExpected(SEXP gridSEXP,
-                                  SEXP valueSEXP,
-                                  SEXP r_indexSEXP,
-                                  SEXP disturbSEXP,
-                                  SEXP weightSEXP,
-                                  SEXP NeighbourSEXP,
-                                  SEXP n_smoothSEXP,
-                                  SEXP SmoothNeighbourSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter<Rcpp::NumericMatrix>::type
-        grid(gridSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericMatrix>::type
-        value(valueSEXP);
-    Rcpp::traits::input_parameter<Rcpp::IntegerMatrix>::type
-        r_index(r_indexSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        disturb(disturbSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        weight(weightSEXP);
-    Rcpp::traits::input_parameter<Rcpp::Function>::type
-        Neighbour(NeighbourSEXP);
-    Rcpp::traits::input_parameter<int>::type
-        n_smooth(n_smoothSEXP);
-    Rcpp::traits::input_parameter<Rcpp::Function>::type
-        SmoothNeighbour(SmoothNeighbourSEXP);
-    __result = Rcpp::wrap(FastExpected(grid, value, r_index, disturb,
-                                       weight, Neighbour, n_smooth,
-                                       SmoothNeighbour));
-    return __result;
-END_RCPP
 }

@@ -22,6 +22,7 @@ arma::vec OptimalValue(const arma::mat& grid, const arma::mat& subgradient) {
 }
 
 // Calculate the martingale increments using the row rearrangement
+//[[Rcpp::export]]
 arma::cube Martingale(Rcpp::NumericVector value_,
                       Rcpp::NumericVector disturb_,
                       Rcpp::NumericVector weight,
@@ -103,28 +104,4 @@ arma::cube Martingale(Rcpp::NumericVector value_,
     Rcpp::Rcout << "Done.\n";
     return mart2;
   }
-}
-
-// Export to R
-RcppExport SEXP rcss_Martingale(SEXP valueSEXP,
-                                SEXP disturbSEXP,
-                                SEXP weightSEXP,
-                                SEXP pathSEXP,
-                                SEXP controlSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        value(valueSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        disturb(disturbSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        weight(weightSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        path(pathSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        control(controlSEXP);
-    __result = Rcpp::wrap(Martingale(value, disturb, weight, path, control));
-    return __result;
-END_RCPP
 }

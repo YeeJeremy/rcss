@@ -8,6 +8,7 @@
 #include <RcppArmadillo.h>
 #include <Rcpp.h>
 
+//[[Rcpp::export]]
 arma::cube FastMartingale(Rcpp::NumericVector value_,
                           Rcpp::NumericVector disturb_,
                           Rcpp::NumericVector weight_,
@@ -113,39 +114,4 @@ arma::cube FastMartingale(Rcpp::NumericVector value_,
     Rcpp::Rcout << "Done.\n";
     return mart2;
   }
-}
-
-// Export to R
-RcppExport SEXP rcss_FastMartingale(SEXP valueSEXP,
-                                    SEXP subsim_disturbSEXP,
-                                    SEXP subsim_weightSEXP,
-                                    SEXP pathSEXP,
-                                    SEXP path_neighbourSEXP,
-                                    SEXP NeighbourSEXP,
-                                    SEXP gridSEXP,
-                                    SEXP controlSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        value(valueSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        subsim_disturb(subsim_disturbSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        subsim_weight(subsim_weightSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        path(pathSEXP);
-    Rcpp::traits::input_parameter<Rcpp::IntegerVector>::type
-        path_neighbour(path_neighbourSEXP);
-    Rcpp::traits::input_parameter<Rcpp::Function>::type
-        Neighbour(NeighbourSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericMatrix>::type
-        grid(gridSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        control(controlSEXP);
-    __result =
-        Rcpp::wrap(FastMartingale(value, subsim_disturb, subsim_weight, path,
-                                  path_neighbour, Neighbour, grid, control));
-    return __result;
-END_RCPP
 }

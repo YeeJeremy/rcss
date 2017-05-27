@@ -5,6 +5,7 @@
 #include <RcppArmadillo.h>
 #include <Rcpp.h>
 
+//[[Rcpp::export]]
 arma::ucube PathPolicy(Rcpp::NumericVector path_,
                        Rcpp::IntegerVector path_nn_,
                        Rcpp::NumericVector control_,
@@ -90,28 +91,4 @@ arma::ucube PathPolicy(Rcpp::NumericVector path_,
     }
   }
   return (policy + 1);
-}
-
-// Export to R
-RcppExport SEXP rcss_PathPolicy(SEXP pathSEXP,
-                                SEXP path_nnSEXP,
-                                SEXP controlSEXP,
-                                SEXP RewardSEXP,
-                                SEXP expectedSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        path(pathSEXP);
-    Rcpp::traits::input_parameter<Rcpp::IntegerVector>::type
-        path_nn(path_nnSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        control(controlSEXP);
-    Rcpp::traits::input_parameter<Rcpp::Function>::type
-        Reward(RewardSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        expected(expectedSEXP);
-    __result = Rcpp::wrap(PathPolicy(path, path_nn, control, Reward, expected));
-    return __result;
-END_RCPP
 }

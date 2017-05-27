@@ -7,6 +7,7 @@
 #include <Rcpp.h>
 
 // Perform bellman recursion using row rearrangement
+//[[Rcpp::export]]
 arma::mat Expected(Rcpp::NumericMatrix grid_,
                    Rcpp::NumericMatrix value_,
                    Rcpp::NumericVector disturb_,
@@ -27,25 +28,4 @@ arma::mat Expected(Rcpp::NumericMatrix grid_,
     continuation += weight[j] * Optimal(grid, d_value);
   }
   return continuation;
-}
-
-// Export to R
-RcppExport SEXP rcss_Expected(SEXP gridSEXP,
-                              SEXP valueSEXP,
-                              SEXP disturbSEXP,
-                              SEXP weightSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter<Rcpp::NumericMatrix>::type
-        grid(gridSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericMatrix>::type
-        value(valueSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        disturb(disturbSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        weight(weightSEXP);
-    __result = Rcpp::wrap(Expected(grid, value, disturb, weight));
-    return __result;
-END_RCPP
 }

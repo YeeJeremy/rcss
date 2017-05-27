@@ -7,6 +7,7 @@
 #include <Rcpp.h>
 
 // Perform bellman recursion using row rearrangement
+//[[Rcpp::export]]
 Rcpp::List Bellman(Rcpp::NumericMatrix grid_,
                    Rcpp::NumericVector reward_,
                    Rcpp::NumericVector control_,
@@ -73,28 +74,4 @@ Rcpp::List Bellman(Rcpp::NumericMatrix grid_,
   return Rcpp::List::create(Rcpp::Named("value") = value,
                             Rcpp::Named("expected") = cont,
                             Rcpp::Named("action") = action);
-}
-
-// Export to R
-RcppExport SEXP rcss_Bellman(SEXP gridSEXP,
-                             SEXP rewardSEXP,
-                             SEXP controlSEXP,
-                             SEXP disturbSEXP,
-                             SEXP weightSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter<Rcpp::NumericMatrix>::type
-        grid(gridSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        reward(rewardSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        control(controlSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        disturb(disturbSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        weight(weightSEXP);
-    __result = Rcpp::wrap(Bellman(grid, reward, control, disturb, weight));
-    return __result;
-END_RCPP
 }

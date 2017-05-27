@@ -8,6 +8,7 @@
 #include <RcppArmadillo.h>
 #include <Rcpp.h>
 
+//[[Rcpp::export]]
 arma::cube Path(Rcpp::NumericVector start_, Rcpp::NumericVector disturb_) {
   // R objects to C++
   const arma::vec start(start_.begin(), start_.length(), false);
@@ -31,19 +32,4 @@ arma::cube Path(Rcpp::NumericVector start_, Rcpp::NumericVector disturb_) {
     }
   }
   return path;
-}
-
-// Export to R
-RcppExport SEXP rcss_Path(SEXP startSEXP,
-                          SEXP disturbSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        start(startSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        disturb(disturbSEXP);
-    __result = Rcpp::wrap(Path(start, disturb));
-    return __result;
-END_RCPP
 }

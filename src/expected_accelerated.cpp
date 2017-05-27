@@ -10,6 +10,7 @@
 #include <Rcpp.h>
 
 // Perform bellman recursion using row rearrangement + nearest neighbours
+//[[Rcpp::export]]
 arma::mat ExpectedAccelerated(Rcpp::NumericMatrix grid_,
                               Rcpp::NumericMatrix value_,
                               Rcpp::NumericVector disturb_,
@@ -52,32 +53,4 @@ arma::mat ExpectedAccelerated(Rcpp::NumericMatrix grid_,
       continuation += weight[j] * OptimalNeighbour(grid, d_value, neighbour, j);
   }
   return continuation;
-}
-
-// Export to R
-RcppExport SEXP rcss_ExpectedAccelerated(SEXP gridSEXP,
-                                         SEXP valueSEXP,
-                                         SEXP disturbSEXP,
-                                         SEXP weightSEXP,
-                                         SEXP n_neighbourSEXP,
-                                         SEXP NeighbourSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter<Rcpp::NumericMatrix>::type
-        grid(gridSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericMatrix>::type
-        value(valueSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        disturb(disturbSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        weight(weightSEXP);
-    Rcpp::traits::input_parameter<int>::type
-        n_neighbour(n_neighbourSEXP);
-    Rcpp::traits::input_parameter<Rcpp::Function>::type
-        Neighbour(NeighbourSEXP);
-    __result = Rcpp::wrap(ExpectedAccelerated(grid, value, disturb, weight,
-                                              n_neighbour, Neighbour));
-    return __result;
-END_RCPP
 }

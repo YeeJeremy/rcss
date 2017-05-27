@@ -7,6 +7,7 @@
 #include <Rcpp.h>
 
 // Bellman recursion using nearest neighbours
+//[[Rcpp::export]]
 Rcpp::List FastBellman(Rcpp::NumericMatrix grid_,
                        Rcpp::NumericVector reward_,
                        Rcpp::NumericVector control_,
@@ -138,42 +139,4 @@ Rcpp::List FastBellman(Rcpp::NumericMatrix grid_,
   return Rcpp::List::create(Rcpp::Named("value") = value,
                             Rcpp::Named("expected") = cont,
                             Rcpp::Named("action") = action);
-}
-
-// Export function to R
-RcppExport SEXP rcss_FastBellman(SEXP gridSEXP,
-                                 SEXP rewardSEXP,
-                                 SEXP controlSEXP,
-                                 SEXP r_indexSEXP,
-                                 SEXP disturbSEXP,
-                                 SEXP weightSEXP,
-                                 SEXP NeighbourSEXP,
-                                 SEXP n_smoothSEXP,
-                                 SEXP SmoothNeighbourSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter<Rcpp::NumericMatrix>::type
-        grid(gridSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        reward(rewardSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        control(controlSEXP);
-    Rcpp::traits::input_parameter<Rcpp::IntegerMatrix>::type
-        r_index(r_indexSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        disturb(disturbSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        weight(weightSEXP);
-    Rcpp::traits::input_parameter<Rcpp::Function>::type
-        Neighbour(NeighbourSEXP);
-    Rcpp::traits::input_parameter<int>::type
-        n_smooth(n_smoothSEXP);
-    Rcpp::traits::input_parameter<Rcpp::Function>::type
-        SmoothNeighbour(SmoothNeighbourSEXP);
-    __result = Rcpp::wrap(FastBellman(grid, reward, control, r_index, disturb,
-                                      weight, Neighbour, n_smooth,
-                                      SmoothNeighbour));
-    return __result;
-END_RCPP
 }

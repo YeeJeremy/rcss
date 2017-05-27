@@ -5,7 +5,7 @@
 #include <RcppArmadillo.h>
 #include <Rcpp.h>
 
-// Calculate the martingale increments using the 
+//[[Rcpp::export]]
 arma::cube FastMartingale2(Rcpp::NumericMatrix grid_,
 			   Rcpp::NumericVector value_,
 			   Rcpp::NumericVector expected_,
@@ -97,35 +97,4 @@ arma::cube FastMartingale2(Rcpp::NumericMatrix grid_,
     Rcpp::Rcout << "Done.\n";
     return mart2;
   }
-}
-
-// Export to R
-RcppExport SEXP rcss_FastMartingale2(SEXP gridSEXP,
-				     SEXP valueSEXP,
-				     SEXP expectedSEXP,
-				     SEXP path_disturbSEXP,
-				     SEXP path_nnSEXP,
-				     SEXP NeighbourSEXP,
-				     SEXP controlSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter<Rcpp::NumericMatrix>::type
-      grid(gridSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-      value(valueSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-      expected(expectedSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-      path_disturb(path_disturbSEXP);
-    Rcpp::traits::input_parameter<Rcpp::IntegerVector>::type
-      path_nn(path_nnSEXP);
-    Rcpp::traits::input_parameter<Rcpp::Function>::type
-      Neighbour(NeighbourSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-      control(controlSEXP);
-    __result = Rcpp::wrap(FastMartingale2(grid, value, expected, path_disturb,
-					  path_nn, Neighbour, control));
-    return __result;
-END_RCPP
 }

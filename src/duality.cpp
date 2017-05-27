@@ -6,6 +6,7 @@
 #include <RcppArmadillo.h>
 #include <Rcpp.h>
 
+//[[Rcpp::export]]
 Rcpp::List Duality(Rcpp::NumericVector path_,
                    Rcpp::NumericVector control_,
                    Rcpp::Function Reward_,
@@ -122,29 +123,4 @@ Rcpp::List Duality(Rcpp::NumericVector path_,
   }
   return Rcpp::List::create(Rcpp::Named("primal") = primal,
                             Rcpp::Named("dual") = dual);
-}
-
-// Export to R
-RcppExport SEXP rcss_Duality(SEXP pathSEXP,
-                             SEXP controlSEXP,
-                             SEXP RewardSEXP,
-                             SEXP martSEXP,
-                             SEXP path_actionSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        path(pathSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        control(controlSEXP);
-    Rcpp::traits::input_parameter<Rcpp::Function>::type
-        Reward(RewardSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        mart(martSEXP);
-    Rcpp::traits::input_parameter<Rcpp::IntegerVector>::type
-        path_action(path_actionSEXP);
-    __result = Rcpp::wrap(Duality(path, control, Reward, mart,
-                                  path_action));
-    return __result;
-END_RCPP
 }

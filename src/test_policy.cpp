@@ -19,6 +19,7 @@ arma::uword NextPosition(const arma::vec &prob_weight) {
   return next_state;
 }
 
+//[[Rcpp::export]]
 arma::vec TestPolicy(int start_position,
                      Rcpp::NumericVector path_,
                      Rcpp::NumericVector control_,
@@ -82,31 +83,7 @@ arma::vec TestPolicy(int start_position,
   return value;
 }
 
-// Export to R
-RcppExport SEXP rcss_TestPolicy(SEXP start_positionSEXP,
-                                SEXP pathSEXP,
-                                SEXP controlSEXP,
-                                SEXP RewardSEXP,
-                                SEXP path_actionSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter<int>::type
-        start_position(start_positionSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        path(pathSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        control(controlSEXP);
-    Rcpp::traits::input_parameter<Rcpp::Function>::type
-        Reward(RewardSEXP);
-    Rcpp::traits::input_parameter<Rcpp::IntegerVector >::type
-        path_action(path_actionSEXP);
-    __result = Rcpp::wrap(TestPolicy(start_position, path, control,
-                                     Reward, path_action));
-    return __result;
-END_RCPP
-}
-
+//[[Rcpp::export]]
 Rcpp::List TestPolicy2(int start_position,
                        Rcpp::NumericVector path_,
                        Rcpp::NumericVector control_,
@@ -176,29 +153,4 @@ Rcpp::List TestPolicy2(int start_position,
   return Rcpp::List::create(Rcpp::Named("value") = value,
                             Rcpp::Named("position") = position + 1,
                             Rcpp::Named("action") = action);
-}
-
-// Export to R
-RcppExport SEXP rcss_TestPolicy2(SEXP start_positionSEXP,
-                                 SEXP pathSEXP,
-                                 SEXP controlSEXP,
-                                 SEXP RewardSEXP,
-                                 SEXP path_actionSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter<int>::type
-        start_position(start_positionSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        path(pathSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        control(controlSEXP);
-    Rcpp::traits::input_parameter<Rcpp::Function>::type
-        Reward(RewardSEXP);
-    Rcpp::traits::input_parameter<Rcpp::IntegerVector >::type
-        path_action(path_actionSEXP);
-    __result = Rcpp::wrap(TestPolicy2(start_position, path, control,
-                                      Reward, path_action));
-    return __result;
-END_RCPP
 }

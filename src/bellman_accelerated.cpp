@@ -10,6 +10,7 @@
 #include <Rcpp.h>
 
 // Perform bellman recursion using nearest neighbours
+//[[Rcpp::export]]
 Rcpp::List BellmanAccelerated(Rcpp::NumericMatrix grid_,
                               Rcpp::NumericVector reward_,
                               Rcpp::NumericVector control_,
@@ -98,35 +99,4 @@ Rcpp::List BellmanAccelerated(Rcpp::NumericMatrix grid_,
   return Rcpp::List::create(Rcpp::Named("value") = value,
                             Rcpp::Named("expected") = cont,
                             Rcpp::Named("action") = action);
-}
-
-// Export to R
-RcppExport SEXP rcss_BellmanAccelerated(SEXP gridSEXP,
-                                        SEXP rewardSEXP,
-                                        SEXP controlSEXP,
-                                        SEXP disturbSEXP,
-                                        SEXP weightSEXP,
-                                        SEXP n_neighbourSEXP,
-                                        SEXP NeighbourSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter<Rcpp::NumericMatrix>::type
-        grid(gridSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        reward(rewardSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        control(controlSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        disturb(disturbSEXP);
-    Rcpp::traits::input_parameter<Rcpp::NumericVector>::type
-        weight(weightSEXP);
-    Rcpp::traits::input_parameter<int>::type
-        n_neighbour(n_neighbourSEXP);
-    Rcpp::traits::input_parameter<Rcpp::Function>::type
-        Neighbour(NeighbourSEXP);
-    __result = Rcpp::wrap(BellmanAccelerated(grid, reward, control, disturb,
-                                             weight, n_neighbour, Neighbour));
-    return __result;
-END_RCPP
 }
