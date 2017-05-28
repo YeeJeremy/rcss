@@ -1,7 +1,11 @@
 \name{FiniteMartingale}
 \alias{FiniteMartingale}
 \title{Finite Martingales}
-\description{Compute the martingale increments for finite distribution case.}
+\description{Compute the martingale increments for finite distribution
+  case. The build must be identical to that used for the Bellman
+  recursion, otherwise the diagnostics may not return correct
+  bounds. Note: the "accelerated" method is currently not supported in this
+  function and will be included in the future.}
 \usage{
 FiniteMartingale(grid, value, expected, path_disturb, path_nn, control,
                  path, build, Neighbour)
