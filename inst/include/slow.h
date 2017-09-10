@@ -1,5 +1,5 @@
 // Copyright <Jeremy Yee> <jeremyyee@outlook.com.au>
-// Header file for slow methods
+// Row rearrangement operator
 ////////////////////////////////////////////////////////////////////////////////
 
 #ifndef INST_INCLUDE_SLOW_H_
@@ -8,19 +8,7 @@
 #include <RcppArmadillo.h>
 
 // Finds the maximising subgradient
-arma::mat Optimal(const arma::mat& grid, const arma::mat& subgradient);
-
-// Perform bellman recursion using row rearrangement
-Rcpp::List Bellman(Rcpp::NumericMatrix grid_,
-                   Rcpp::NumericVector reward_,
-                   Rcpp::NumericVector control_,
-                   Rcpp::NumericVector disturb_,
-                   Rcpp::NumericVector weight);
-
-// Expected value using row rearrangement
-arma::mat Expected(Rcpp::NumericMatrix grid_,
-                   Rcpp::NumericMatrix value_,
-                   Rcpp::NumericVector disturb_,
-                   Rcpp::NumericVector weight);
+arma::mat Optimal(const arma::mat& grid,
+                  const arma::mat& subgradient);
 
 #endif  // INST_INCLUDE_SLOW_H_

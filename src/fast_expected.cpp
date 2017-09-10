@@ -1,84 +1,39 @@
 // Copyright 2015 <Jeremy Yee> <jeremyyee@outlook.com.au>
-// Performs the fast bellman recursion
+// Expected value using the consitional expectation matrices
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "inst/include/bellman.h"
 #include "inst/include/fast.h"
-#include <Rcpp.h>
 
 // Bellman recursion using nearest neighbours
 //[[Rcpp::export]]
-arma::mat FastExpected(Rcpp::NumericMatrix grid_,
-                       Rcpp::NumericMatrix value_,
-                       Rcpp::IntegerMatrix r_index_,
-                       Rcpp::NumericVector disturb_,
-                       Rcpp::NumericVector weight,
-                       Rcpp::Function Neighbour_,
-                       int n_smooth,
-                       Rcpp::Function SmoothNeighbour_) {
-  // R objects to C++
-  const std::size_t n_grid = grid_.nrow();
-  const std::size_t n_dim = grid_.ncol();
-  const arma::mat grid(grid_.begin(), n_grid, n_dim, false);
-  const arma::mat value(value_.begin(), n_grid, n_dim, false);
-  const std::size_t n_perm = r_index_.nrow() + 1;
-  const arma::imat r_index(r_index_.begin(), n_perm - 1, 2, false);
-  const arma::ivec d_dims = disturb_.attr("dim");
-  const std::size_t n_disturb = d_dims(2);
-  const arma::mat disturb(disturb_.begin(), n_dim, n_dim * n_disturb, false);
+arma::mat FastExpected(const arma::mat& grid,
+                       const arma::mat& value,
+                       const arma::umat& r_index,
+                       const arma::cube& disturb,
+                       const arma::vec& weight,
+                       const std::size_t& n_smooth) {
+  // Parameters
+  const std::size_t n_grid = grid.n_rows;
+  const std::size_t n_dim = grid.n_cols;
+  const std::size_t n_disturb = disturb.n_slices;
+  const std::size_t n_perm = r_index.n_rows + 1;
   // Construct the constant and permutation matrices
   arma::mat constant(n_dim, n_dim);
   arma::cube perm(n_grid, n_grid, n_perm, arma::fill::zeros);
-  {
-  // Disturbed grids and nearest neighbours
-    arma::uvec neighbour(n_grid * n_disturb);
-    {
-      arma::mat disturb_grid(n_grid * n_disturb, n_dim);
-      std::size_t d;
-#pragma omp parallel for private(d)
-      for (d = 0; d < n_disturb; d++) {
-        disturb_grid.rows(n_grid * d, n_grid * (d + 1) - 1) = grid *
-            arma::trans(disturb.cols(d * n_dim, (d + 1) * n_dim - 1));
-      }
-      Rcpp::IntegerVector r_neighbour(n_grid * n_disturb);
-      r_neighbour = Neighbour_(
-          Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(disturb_grid)),
-          Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(grid)));
-      neighbour = Rcpp::as<arma::uvec>(r_neighbour) - 1;  // R index to C++
-    }
-    // Constant matrix
-    constant = disturb.cols(0, n_dim - 1);
-    for (std::size_t i = 0; i < (n_perm - 1); i++) {
-      constant(r_index(i, 0) - 1, r_index(i, 1) - 1) = 0;
-    }
-    // Conditional expectation operator
-    for (std::size_t i = 0; i < n_disturb; i++) {
-      for (std::size_t j = 0; j < n_grid; j++) {
-        perm(j, neighbour(i * n_grid + j), 0) += weight[i];
-        for (std::size_t k = 1; k < n_perm; k++) {
-          perm(j, neighbour(i * n_grid + j), k) += weight[i] *
-              disturb(r_index(k - 1, 0) - 1, r_index(k - 1, 1) - 1 + i * n_dim);
-        }
-      }
-    }
-  }
+  ExpectMat(constant, perm, grid, r_index, disturb, weight);
   // Finding the nearest neighbours for smoothing (if selected)
-  arma::umat smooth_neighbour(n_smooth, n_grid * n_disturb);
+  arma::umat smooth_neighbour(n_grid, n_smooth);
   if (n_smooth > 1) {
-    arma::umat temp_neighbour(n_grid, n_smooth);
-    Rcpp::IntegerMatrix r_neighbour(n_grid, n_smooth);
-    r_neighbour = SmoothNeighbour_(
-        Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(grid)),
-        Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(grid)));
-    temp_neighbour = Rcpp::as<arma::umat>(r_neighbour) - 1;  // R index to C++
-    smooth_neighbour = temp_neighbour.t();
+    smooth_neighbour = arma::conv_to<arma::umat>::from(rflann::FastKDNeighbour(
+          Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(grid)),
+          Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(grid)), n_smooth)) - 1;
   }
   // Computing the continuation value function
   arma::mat continuation(n_grid, n_dim);
   continuation = perm.slice(0) * value * constant;
-  for (std::size_t i = 0; i < (n_perm - 1); i++) {
-    continuation.col(r_index(i, 1) - 1) += perm.slice(i + 1) *
-        value.col(r_index(i, 0) - 1);
+  for (std::size_t ii = 0; ii < (n_perm - 1); ii++) {
+    continuation.col(r_index(ii, 1) - 1) += perm.slice(ii + 1) *
+        value.col(r_index(ii, 0) - 1);
   }
   // Smooth the continuation value functions (if selected)
   if (n_smooth > 1) {

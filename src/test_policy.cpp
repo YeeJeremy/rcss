@@ -1,36 +1,35 @@
 // Copyright 2015 <Jeremy Yee> <jeremyyee@outlook.com.au>
-// Testing the prescibed policy using generated sample paths
+// Testing the prescibed policy using provided paths
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <RcppArmadillo.h>
-#include <Rcpp.h>
 
 arma::uword NextPosition(const arma::vec &prob_weight) {
   const std::size_t n_pos = prob_weight.n_elem;
   const arma::vec cum_prob = arma::cumsum(prob_weight);
   const double rand_unif = R::runif(0, 1);
   arma::uword next_state = 0;
-  for (std::size_t i = 1; i < n_pos; i++) {
-    if (rand_unif <= cum_prob(i)) {
-      next_state = i;
+  for (std::size_t pp = 0; pp < n_pos; pp++) {
+    if (rand_unif <= cum_prob(pp)) {
+      next_state = pp;
       break;
     }
   }
   return next_state;
 }
 
+// Fast testing of policy
 //[[Rcpp::export]]
-arma::vec TestPolicy(int start_position,
-                     Rcpp::NumericVector path_,
+arma::vec TestPolicy(const std::size_t& start_position,
+                     const arma::cube& path,
                      Rcpp::NumericVector control_,
                      Rcpp::Function Reward_,
-                     Rcpp::IntegerVector path_action_) {
+                     Rcpp::Function Scrap_,
+                     const arma::ucube& path_action) {
   // R objects into C++
-  const arma::ivec p_dims = path_.attr("dim");
-  const int n_dec = p_dims(0);
-  const std::size_t n_path = p_dims(1);
-  const std::size_t n_dim = p_dims(2);
-  const arma::cube path(path_.begin(), n_dec, n_path, n_dim, false);
+  const std::size_t n_dec = path.n_slices;
+  const std::size_t n_path = path.n_rows;
+  const std::size_t n_dim = path.n_cols;
   const arma::ivec c_dims = control_.attr("dim");
   const std::size_t n_pos = c_dims(0);
   const std::size_t n_action = c_dims(1);
@@ -46,55 +45,57 @@ arma::vec TestPolicy(int start_position,
     arma::mat temp_control(control_.begin(), n_pos, n_action, false);
     control = arma::conv_to<arma::imat>::from(temp_control);
   }
-  const arma::icube path_action(path_action_.begin(), n_dec, n_pos, n_path,
-				false);
-  // Performing out of sample testing of the prescribed policy
+  // Testing the policy
   arma::vec value(n_path, arma::fill::zeros);
   arma::uvec pos(n_path);
   pos.fill(start_position - 1);  // Initialise with starting position
-  arma::mat state(n_path, n_dim);
-  arma::mat reward(n_path, n_action * n_pos);
+  arma::cube reward(n_path, n_action, n_pos);
   arma::uword policy;
   if (full_control) {
-    for (int t = 0; t < n_dec; t++) {
-      state = path(arma::span(t), arma::span::all, arma::span::all);
-      reward = Rcpp::as<arma::mat>(Reward_(
-          Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(state)), t + 1));
-      for (std::size_t i = 0; i < n_path; i++) {
-        policy = path_action(t, pos(i), i) - 1;
-        value(i) += reward(i, pos(i) * n_action + policy);
-        pos(i) = control(pos(i), policy) - 1;
+    for (std::size_t tt = 0; tt < (n_dec - 1); tt++) {
+      reward = Rcpp::as<arma::cube>(Reward_(
+          Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(path.slice(tt))), tt + 1));
+      for (std::size_t pp = 0; pp < n_path; pp++) {
+        policy = path_action(pp, pos(pp), tt) - 1;
+        value(pp) += reward(pp, policy, pos(pp));
+        pos(pp) = control(pos(pp), policy) - 1;
       }
     }
   } else {
     arma::vec prob_weight(n_pos);
-    for (int t = 0; t < n_dec; t++) {
-      state = path(arma::span(t), arma::span::all, arma::span::all);
-      reward = Rcpp::as<arma::mat>(Reward_(
-          Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(state)), t + 1));
-      for (std::size_t i = 0; i < n_path; i++) {
-        policy = path_action(t, pos(i), i) - 1;
-        value(i) += reward(i, pos(i) * n_action + policy);
-        prob_weight = control2.tube(pos(i), policy);
-        pos(i) = NextPosition(prob_weight);
+    for (std::size_t tt = 0; tt < (n_dec - 1); tt++) {
+      reward = Rcpp::as<arma::cube>(Reward_(
+          Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(path.slice(tt))), tt + 1));
+      for (std::size_t pp = 0; pp < n_path; pp++) {
+        policy = path_action(pp, pos(pp), tt) - 1;
+        value(pp) += reward(pp, policy, pos(pp));
+        prob_weight = control2.tube(pos(pp), policy);
+        pos(pp) = NextPosition(prob_weight);
       }
     }
+  }
+  // Assign scrap reward
+  arma::mat scrap(n_path, n_pos);
+  scrap = Rcpp::as<arma::mat>(Scrap_(
+      Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(path.slice(n_dec - 1)))));
+  for (std::size_t pp = 0; pp < n_path; pp++) {
+    value(pp) += scrap(pp, pos(pp));
   }
   return value;
 }
 
+// Complete testing of policy
 //[[Rcpp::export]]
-Rcpp::List TestPolicy2(int start_position,
-                       Rcpp::NumericVector path_,
-                       Rcpp::NumericVector control_,
-                       Rcpp::Function Reward_,
-                       Rcpp::IntegerVector path_action_) {
+Rcpp::List FullTestPolicy(const std::size_t& start_position,
+                          const arma::cube& path,
+                          Rcpp::NumericVector control_,
+                          Rcpp::Function Reward_,
+                          Rcpp::Function Scrap_,
+                          const arma::ucube& path_action) {
   // R objects into C++
-  const arma::ivec p_dims = path_.attr("dim");
-  const int n_dec = p_dims(0);
-  const std::size_t n_path = p_dims(1);
-  const std::size_t n_dim = p_dims(2);
-  const arma::cube path(path_.begin(), n_dec, n_path, n_dim, false);
+  const std::size_t n_dec = path.n_slices;
+  const std::size_t n_path = path.n_rows;
+  const std::size_t n_dim = path.n_cols;
   const arma::ivec c_dims = control_.attr("dim");
   const std::size_t n_pos = c_dims(0);
   const std::size_t n_action = c_dims(1);
@@ -110,47 +111,43 @@ Rcpp::List TestPolicy2(int start_position,
     arma::mat temp_control(control_.begin(), n_pos, n_action, false);
     control = arma::conv_to<arma::imat>::from(temp_control);
   }
-  const arma::icube path_action(path_action_.begin(), n_dec, n_pos, n_path,
-				false);
-  // Performing out of sample testing of the prescribed policy
-  arma::vec value(n_path, arma::fill::zeros);
-  arma::umat action(n_path, n_dec);  // Actions taken
-  arma::umat position(n_path, n_dec);  // Evolution of the position
-  arma::uvec pos(n_path);
-  pos.fill(start_position - 1);  // Initialise with starting position
-  arma::mat state(n_path, n_dim);
-  arma::mat reward(n_path, n_action * n_pos);
-  arma::uword policy;
+  // Testing the policy
+  arma::mat value(n_path, n_dec);
+  arma::umat pos(n_path, n_dec);
+  pos.col(0).fill(start_position - 1);  // Initialise with starting position
+  arma::cube reward(n_path, n_action, n_pos);
+  arma::umat action(n_path, n_dec - 1);
   if (full_control) {
-    for (int t = 0; t < n_dec; t++) {
-      position.col(t) = pos;
-      state = path(arma::span(t), arma::span::all, arma::span::all);
-      reward = Rcpp::as<arma::mat>(Reward_(
-          Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(state)), t + 1));
-      for (std::size_t i = 0; i < n_path; i++) {
-        policy = path_action(t, pos(i), i) - 1;
-        action(i, t) = policy + 1;
-        value(i) += reward(i, pos(i) * n_action + policy);
-        pos(i) = control(pos(i), policy) - 1;  // last assignment useless
+    for (std::size_t tt = 0; tt < (n_dec - 1); tt++) {
+      reward = Rcpp::as<arma::cube>(Reward_(
+          Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(path.slice(tt))), tt + 1));
+      for (std::size_t pp = 0; pp < n_path; pp++) {
+        action(pp, tt) = path_action(pp, pos(pp, tt), tt) - 1;
+        value(pp, tt) = reward(pp, action(pp, tt), pos(pp, tt));
+        pos(pp, tt + 1) = control(pos(pp, tt), action(pp, tt)) - 1;
       }
     }
   } else {
     arma::vec prob_weight(n_pos);
-    for (int t = 0; t < n_dec; t++) {
-      position.col(t) = pos;
-      state = path(arma::span(t), arma::span::all, arma::span::all);
-      reward = Rcpp::as<arma::mat>(Reward_(
-          Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(state)), t + 1));
-      for (std::size_t i = 0; i < n_path; i++) {
-        policy = path_action(t, pos(i), i) - 1;
-        action(i, t) = policy + 1;
-        value(i) += reward(i, pos(i) * n_action + policy);
-        prob_weight = control2.tube(pos(i), policy);
-        pos(i) = NextPosition(prob_weight);  // last assignment useless
+    for (std::size_t tt = 0; tt < (n_dec - 1); tt++) {
+      reward = Rcpp::as<arma::cube>(Reward_(
+          Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(path.slice(tt))), tt + 1));
+      for (std::size_t pp = 0; pp < n_path; pp++) {
+        action(pp, tt) = path_action(pp, pos(pp, tt), tt) - 1;
+        value(pp, tt) = reward(pp, action(pp, tt), pos(pp, tt));
+        prob_weight = control2.tube(pos(pp, tt), action(pp, tt));
+        pos(pp, tt + 1) = NextPosition(prob_weight);
       }
     }
   }
-  return Rcpp::List::create(Rcpp::Named("value") = value,
-                            Rcpp::Named("position") = position + 1,
-                            Rcpp::Named("action") = action);
+  // Assign scrap reward
+  arma::mat scrap(n_path, n_pos);
+  scrap = Rcpp::as<arma::mat>(Scrap_(
+      Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(path.slice(n_dec - 1)))));
+  for (std::size_t pp = 0; pp < n_path; pp++) {
+    value(pp, n_dec - 1) = scrap(pp, pos(pp, n_dec - 1));
+  }
+  return Rcpp::List::create(Rcpp::Named("value") = arma::cumsum(value, 1),
+                            Rcpp::Named("position") = pos + 1,
+                            Rcpp::Named("action") = action + 1);
 }
