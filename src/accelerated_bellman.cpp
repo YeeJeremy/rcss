@@ -10,7 +10,7 @@
 #include "inst/include/bellman.h"
 #include "inst/include/accelerated.h"
 
-#pragma omp declare reduction( + : arma::cube : omp_out += omp_in ) \
+#pragma omp declare reduction( + : arma::mat : omp_out += omp_in )    \
   initializer( omp_priv = omp_orig )
 
 // Perform bellman recursion using nearest neighbours
@@ -71,18 +71,23 @@ Rcpp::List AcceleratedBellman(const arma::mat& grid,
   }
   // Backwards induction
   arma::mat d_value(n_grid, n_dim);
+  arma::mat temp_cont(n_grid, n_dim * n_pos);
   for (int tt = (n_dec - 2); tt >= 0; tt--) {
     Rcpp::Rcout << tt << ".";
-#pragma omp parallel for private(d_value) reduction(+:cont)
     // Approximating the continuation value
+    temp_cont.fill(0.);
+#pragma omp parallel for private(d_value) reduction(+:temp_cont)
     for (std::size_t dd = 0; dd < n_disturb; dd++) {
       for (std::size_t pp = 0; pp < n_pos; pp++) {
         d_value = value.slice(tt + 1).cols(n_dim * pp, n_dim * (pp + 1) - 1)
             * disturb.slice(dd);
-        cont.slice(tt).cols(n_dim * pp, n_dim * (pp + 1) - 1) += weight(dd) *
-            OptimalNeighbour(grid, d_value, neighbour.rows(n_grid * dd, n_grid * (dd + 1) - 1), dd);
+        temp_cont.cols(n_dim * pp, n_dim * (pp + 1) - 1) += weight(dd) *
+            OptimalNeighbour(grid, d_value, neighbour.rows(n_grid * dd, n_grid * (dd + 1) - 1));
+        //cont.slice(tt).cols(n_dim * pp, n_dim * (pp + 1) - 1) += weight(dd) *
+        //    OptimalNeighbour(grid, d_value, neighbour.rows(n_grid * dd, n_grid * (dd + 1) - 1));
       }
     }
+    cont.slice(tt) = temp_cont;
     Rcpp::Rcout << "..";
     // Optimise to find value function
     if (full_control) {

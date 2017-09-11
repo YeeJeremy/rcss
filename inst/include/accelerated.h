@@ -10,8 +10,7 @@
 // Finds the maximising subgradient using nearest neighbours + row-rearrange
 arma::mat OptimalNeighbour(const arma::mat& grid,
                            const arma::mat& subgradient,
-                           const arma::umat& neighbour,
-                           const std::size_t& disturb_index);
+                           const arma::umat& neighbour);
 
 
 #endif  // INST_INCLUDE_ACCELERATED_H_

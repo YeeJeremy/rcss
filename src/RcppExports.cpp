@@ -149,6 +149,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// FiniteAddDual
+arma::cube FiniteAddDual(const arma::cube& path, Rcpp::NumericVector path_disturb_, const arma::mat& grid, Rcpp::NumericVector value_, Rcpp::NumericVector expected_, const std::string& build, const std::size_t& k);
+RcppExport SEXP rcss_FiniteAddDual(SEXP pathSEXP, SEXP path_disturb_SEXP, SEXP gridSEXP, SEXP value_SEXP, SEXP expected_SEXP, SEXP buildSEXP, SEXP kSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::cube& >::type path(pathSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type path_disturb_(path_disturb_SEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type grid(gridSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type value_(value_SEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type expected_(expected_SEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type build(buildSEXP);
+    Rcpp::traits::input_parameter< const std::size_t& >::type k(kSEXP);
+    rcpp_result_gen = Rcpp::wrap(FiniteAddDual(path, path_disturb_, grid, value_, expected_, build, k));
+    return rcpp_result_gen;
+END_RCPP
+}
 // PathPolicy
 arma::ucube PathPolicy(const arma::cube& path, Rcpp::NumericVector control_, Rcpp::Function Reward_, Rcpp::NumericVector expected_);
 RcppExport SEXP rcss_PathPolicy(SEXP pathSEXP, SEXP control_SEXP, SEXP Reward_SEXP, SEXP expected_SEXP) {

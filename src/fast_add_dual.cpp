@@ -9,7 +9,7 @@
 #include <rflann.h>
 #include <RcppArmadillo.h>
 
-// Calculate the martingale increments using the row rearrangement
+// Calculate the martingale increments using nearets neighbours
 //[[Rcpp::export]]
 arma::cube FastAddDual(const arma::cube& path,
                        Rcpp::NumericVector subsim_,

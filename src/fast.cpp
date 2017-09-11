@@ -54,14 +54,14 @@ void ExpectMat(arma::mat& constant,
   const std::size_t n_perm = r_index.n_rows + 1;
   const std::size_t n_disturb = disturb.n_slices;
   // Disturbed grids and nearest neighbours
-  arma::umat neighbour(n_grid * n_disturb, 1);
+  arma::uvec neighbour(n_grid * n_disturb);
   {
     arma::mat disturb_grid(n_grid * n_disturb, n_dim);
     for (std::size_t dd = 0; dd < n_disturb; dd++) {
       disturb_grid.rows(n_grid * dd, n_grid * (dd + 1) - 1) =
           grid * arma::trans(disturb.slice(dd));
     }
-    neighbour = arma::conv_to<arma::umat>::from(rflann::FastKDNeighbour(
+    neighbour = arma::conv_to<arma::uvec>::from(rflann::FastKDNeighbour(
         Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(disturb_grid.cols(1, n_dim - 1))),
         Rcpp::as<Rcpp::NumericMatrix>(Rcpp::wrap(grid.cols(1, n_dim - 1))),
         1)) - 1;

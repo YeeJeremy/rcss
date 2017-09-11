@@ -41,7 +41,7 @@ arma::mat AcceleratedExpected(const arma::mat& grid,
   for (std::size_t dd = 0; dd < n_disturb; dd++) {
       d_value = value * disturb.slice(dd);
       continuation += weight(dd) *
-          OptimalNeighbour(grid, d_value, neighbour.rows(n_grid * dd, n_grid * (dd + 1) - 1), dd);
+          OptimalNeighbour(grid, d_value, neighbour.rows(n_grid * dd, n_grid * (dd + 1) - 1));
   }
   return continuation;
 }

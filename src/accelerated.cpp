@@ -7,8 +7,7 @@
 // Maximising subgradient using nearest neighbours + row-rearrange
 arma::mat OptimalNeighbour(const arma::mat& grid,
                            const arma::mat& subgradient,
-                           const arma::umat& neighbour,
-                           const std::size_t& dd) {
+                           const arma::umat& neighbour) {
   const std::size_t n_grid = grid.n_rows;
   const std::size_t n_dim = grid.n_cols;
   const std::size_t n_neighbour = neighbour.n_cols;
