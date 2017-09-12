@@ -5,29 +5,32 @@ Juri Hinz and Jeremy Yee
 
 ## Description
 
-R package for the numerical treatment of convex switching
-systems. Requires the *rflann* package (also found on my github
+R package for the numerical treatment of Markov decision processes
+under linear state dynamics, convex reward and convex scrap functions.
+Requires the *rflann* package (also found on my github
 account). Please contact me by email (jeremyyee@outlook.com.au) or
 through my github account to report any issues. An implementation in
 the *Julia* language is also available on my GitHub page.
 
-## Problem Setting
+## Problem setting
 
-A convex switching system is basically a Markov decision process with:
-* a finite number of time points
+We impose the following restrictions on our Markov decision process:
+* a finite number of time points;
 * a Markov process consisting of:
-      1. a controlled Markov chain with a finite number of possible realizations (positions) 
+      1. a controlled Markov chain with a finite number of possible realizations (positions); 
       2. a continuous process that evolves linearly i.e. **X<sub>t+1</sub> = W<sub>t+1</sub> X<sub>t</sub>**
-      where **W<sub>t+1</sub>** is a matrix with random entries
+      where **W<sub>t+1</sub>** is a matrix with random entries;
 * reward and scrap functions that are convex and Lipschitz continuous
-  in the continuous process
-* a finite number of actions
+  in the continuous process;
+* a finite number of actions.
 
-Using this R package, we can then approximate all the value functions
-in the Bellman recursion and also compute their lower and upper bounds
-using a primal-dual approach.  The following R code demonstrates this.
+We can then approximate all the functions in the Bellman recursion
+using a piece-wise linear approximation. Lower and upper bounds are
+computed using a primal-dual approach.
 
-## Example: Bermuda Put Option - Value Function Approximation
+## Example: Bermuda put option
+
+### Value function approximation
 
 Let us consider the valuation of a Bermuda put option with strike
 price **40** and expiry date of **1** year. The underlying asset price
@@ -106,7 +109,7 @@ value function of the option can be plotted using the following.
 plot(grid[,2], rowSums(bellman$value[,,2,1] * grid), type = "l", xlab = "Stock Price", ylab = "value", main = "Option Value") 
 ~~~
 
-## Example: Bermuda Put Option - Bounds
+### Primal-dual bounds
 
 Having computed the function approximations above, we can now
 calculate the bounds on the value of the option. Suppose that the
@@ -156,7 +159,6 @@ will be used to calculate the required martingale increments (additive
 duals).
 
 ~~~
-
 ## Subsimulation disturbances
 n_subsim <- 1000
 subsim <- array(0, dim = c(2, 2, n_subsim, n_path, (n_dec - 1)))
