@@ -1,4 +1,6 @@
 useDynLib(rcss)
 importFrom(Rcpp, evalCpp)
 importFrom("stats", "qnorm", "sd")
+importFrom("StochasticProcess", "PathDisturb")
+importFrom("rflann", "FastKDNeighbour")
 exportPattern("^[[:alpha:]]+")

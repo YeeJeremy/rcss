@@ -2,6 +2,6 @@
 ## Row rearrangement operator
 ################################################################################
 
-Optimal <- function(grid, subgradient) {
-    .Call('rcss_Optimal', PACKAGE = 'rcss', grid, subgradient)
+Optimal <- function(grid, tangent) {
+    .Call('rcss_Optimal', PACKAGE = 'rcss', grid, tangent)
 }

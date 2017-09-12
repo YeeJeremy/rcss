@@ -2,7 +2,7 @@
 ## Computing the bounds
 ################################################################################
 
-AddDualBounds <- function(path, control, Reward, Scrap, add_dual, policy) {
+AddDualBounds <- function(path, control, Reward, Scrap, dual, policy) {
     .Call('rcss_AddDualBounds', PACKAGE = 'rcss', path, control, Reward, Scrap,
-          add_dual, policy)
+          dual, policy)
 }

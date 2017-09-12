@@ -2,7 +2,7 @@
 ## Testing the prescribed policy and return position evolution
 ################################################################################
 
-FullTestPolicy <- function(position, path, control, Reward, Scrap, path_action) {
+FullTestPolicy <- function(position, path, control, Reward, Scrap, policy) {
     .Call('rcss_FullTestPolicy', PACKAGE = 'rcss', position, path,
-          control, Reward, Scrap, path_action)
+          control, Reward, Scrap, policy)
 }

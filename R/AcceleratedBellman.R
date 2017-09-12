@@ -2,7 +2,7 @@
 ## Perform Bellman recursion using k nearest neighbours
 ################################################################################
 
-AcceleratedBellman <- function(grid, reward, scrap, control, disturb, weight, k) {
+AcceleratedBellman <- function(grid, reward, scrap, control, disturb, weight, k = 1) {
     output <- .Call('rcss_AcceleratedBellman', PACKAGE = 'rcss', grid,
                     reward, scrap, control, disturb, weight, k)
     ## Put output into correct format

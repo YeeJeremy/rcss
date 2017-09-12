@@ -2,7 +2,7 @@
 ## Testing the prescribed policy
 ################################################################################
 
-TestPolicy <- function(position, path, control, Reward, Scrap, path_action) {
+TestPolicy <- function(position, path, control, Reward, Scrap, policy) {
     .Call('rcss_TestPolicy', PACKAGE = 'rcss', position, path,
-          control, Reward, Scrap, path_action)
+          control, Reward, Scrap, policy)
 }
