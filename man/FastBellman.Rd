@@ -15,10 +15,10 @@ FastBellman(grid, reward, scrap, control, disturb, weight, r_index,
     the reward. Entry [i,,a,p,t] captures the tangent at grid point
     i for action a taken in position p at time t. The intercept is given
     by [i,1,a,p,t] and slope by [i,-1,a,p,t].}
-  \item{scrap}{4-D array representing the tangent approximation of the
-    scrap. Entry [i,,p,t] captures the tangent at grid point i for
-    position p. The intercept is given by [i,1,a,p] and slope by
-    [i,-1,a,p].}
+  \item{scrap}{3-D array representing the tangent approximation of the
+    scrap. Entry [i,,p] captures the tangent at grid point i for
+    position p. The intercept is given by [i,1,p] and slope by
+    [i,-1,p].}
   \item{control}{Array representing the transition probabilities of the
     controlled Markov chain. Two possible inputs:
     \itemize{

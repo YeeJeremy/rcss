@@ -19,8 +19,8 @@ Rcpp::List FastBellman(const arma::mat& grid,
   const std::size_t n_grid = grid.n_rows;
   const std::size_t n_dim = grid.n_cols;
   const arma::ivec r_dims = reward_.attr("dim");
-  const std::size_t n_pos = r_dims(2);
-  const std::size_t n_action = r_dims(3);
+  const std::size_t n_pos = r_dims(3);
+  const std::size_t n_action = r_dims(2);
   const std::size_t n_dec = r_dims(4) + 1;
   const arma::cube
       reward(reward_.begin(), n_grid, n_dim * n_action * n_pos, n_dec - 1, false);

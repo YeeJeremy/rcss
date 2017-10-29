@@ -8,7 +8,7 @@ Bellman <- function(grid, reward, scrap, control, disturb, weight) {
     ## Put output into correct format
     n_grid <- nrow(grid)
     n_dim <- ncol(grid)
-    n_position <- dim(reward)[3]
+    n_position <- dim(reward)[4]
     n_dec <- dim(reward)[5] + 1
     dimens <- c(n_grid, n_dim, n_position, n_dec)
     dimens1 <- c(n_grid, n_dim, n_position, n_dec - 1)
