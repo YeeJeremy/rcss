@@ -4,7 +4,7 @@
 
 FastBellman <- function(grid, reward, scrap, control, disturb, weight, r_index,
                         smooth = 1) {
-    output <- .Call('rcss_FastBellman', PACKAGE = 'rcss', grid, reward, scrap,
+    output <- .Call('_rcss_FastBellman', PACKAGE = 'rcss', grid, reward, scrap,
                     control, r_index, disturb, weight, smooth)
     ## Put output into correct format
     n_grid <- nrow(grid)

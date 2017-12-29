@@ -3,6 +3,6 @@
 ################################################################################
 
 AddDualBounds <- function(path, control, Reward, Scrap, dual, policy) {
-    .Call('rcss_AddDualBounds', PACKAGE = 'rcss', path, control, Reward, Scrap,
+    .Call('_rcss_AddDualBounds', PACKAGE = 'rcss', path, control, Reward, Scrap,
           dual, policy)
 }

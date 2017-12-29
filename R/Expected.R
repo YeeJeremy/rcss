@@ -3,5 +3,5 @@
 ################################################################################
 
 Expected <- function(grid, value, disturb, weight) {
-    .Call('rcss_Expected', PACKAGE = 'rcss', grid, value, disturb, weight)
+    .Call('_rcss_Expected', PACKAGE = 'rcss', grid, value, disturb, weight)
 }

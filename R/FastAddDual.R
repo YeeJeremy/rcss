@@ -3,5 +3,5 @@
 ################################################################################
 
 FastAddDual <- function(path, subsim, weight, grid, value, Scrap) {
-    .Call('rcss_FastAddDual', PACKAGE = 'rcss', path, subsim, weight, grid, value, Scrap)
+    .Call('_rcss_FastAddDual', PACKAGE = 'rcss', path, subsim, weight, grid, value, Scrap)
 }

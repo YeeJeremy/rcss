@@ -3,6 +3,6 @@
 ################################################################################
 
 FastExpected <- function(grid, value, disturb, weight, r_index, smooth = 1) {
-    .Call('rcss_FastExpected', PACKAGE = 'rcss', grid, value, r_index,
+    .Call('_rcss_FastExpected', PACKAGE = 'rcss', grid, value, r_index,
           disturb, weight,smooth)
 }

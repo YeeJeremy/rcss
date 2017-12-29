@@ -3,6 +3,6 @@
 ################################################################################
 
 TestPolicy <- function(position, path, control, Reward, Scrap, policy) {
-    .Call('rcss_TestPolicy', PACKAGE = 'rcss', position, path,
+    .Call('_rcss_TestPolicy', PACKAGE = 'rcss', position, path,
           control, Reward, Scrap, policy)
 }

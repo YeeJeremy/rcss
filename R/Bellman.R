@@ -3,7 +3,7 @@
 ################################################################################
 
 Bellman <- function(grid, reward, scrap, control, disturb, weight) {
-    output <- .Call('rcss_Bellman', PACKAGE = 'rcss', grid, reward, scrap,
+    output <- .Call('_rcss_Bellman', PACKAGE = 'rcss', grid, reward, scrap,
                     control, disturb, weight)
     ## Put output into correct format
     n_grid <- nrow(grid)

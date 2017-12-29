@@ -3,6 +3,6 @@
 ################################################################################
 
 AcceleratedExpected <- function(grid, value, disturb, weight, k = 1) {
-    .Call('rcss_AcceleratedExpected', PACKAGE = 'rcss', grid, value, disturb,
+    .Call('_rcss_AcceleratedExpected', PACKAGE = 'rcss', grid, value, disturb,
           weight, k)
 }

@@ -3,6 +3,6 @@
 ################################################################################
 
 FullTestPolicy <- function(position, path, control, Reward, Scrap, policy) {
-    .Call('rcss_FullTestPolicy', PACKAGE = 'rcss', position, path,
+    .Call('_rcss_FullTestPolicy', PACKAGE = 'rcss', position, path,
           control, Reward, Scrap, policy)
 }

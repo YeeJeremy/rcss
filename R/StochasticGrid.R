@@ -3,5 +3,5 @@
 ################################################################################
 
 StochasticGrid <- function(path, n_grid, max_iter, warning = FALSE) {
-    .Call('rcss_StochasticGrid', PACKAGE = 'rcss', path, n_grid, max_iter, warning)
+    .Call('_rcss_StochasticGrid', PACKAGE = 'rcss', path, n_grid, max_iter, warning)
 }

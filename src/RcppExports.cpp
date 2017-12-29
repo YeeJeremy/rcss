@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // AcceleratedBellman
 Rcpp::List AcceleratedBellman(const arma::mat& grid, Rcpp::NumericVector reward_, const arma::cube& scrap, Rcpp::NumericVector control_, const arma::cube& disturb, const arma::vec& weight, const std::size_t& n_neighbour);
-RcppExport SEXP rcss_AcceleratedBellman(SEXP gridSEXP, SEXP reward_SEXP, SEXP scrapSEXP, SEXP control_SEXP, SEXP disturbSEXP, SEXP weightSEXP, SEXP n_neighbourSEXP) {
+RcppExport SEXP _rcss_AcceleratedBellman(SEXP gridSEXP, SEXP reward_SEXP, SEXP scrapSEXP, SEXP control_SEXP, SEXP disturbSEXP, SEXP weightSEXP, SEXP n_neighbourSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -25,7 +25,7 @@ END_RCPP
 }
 // AcceleratedExpected
 arma::mat AcceleratedExpected(const arma::mat& grid, const arma::mat& value, const arma::cube& disturb, const arma::vec& weight, const std::size_t& n_neighbour);
-RcppExport SEXP rcss_AcceleratedExpected(SEXP gridSEXP, SEXP valueSEXP, SEXP disturbSEXP, SEXP weightSEXP, SEXP n_neighbourSEXP) {
+RcppExport SEXP _rcss_AcceleratedExpected(SEXP gridSEXP, SEXP valueSEXP, SEXP disturbSEXP, SEXP weightSEXP, SEXP n_neighbourSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -40,7 +40,7 @@ END_RCPP
 }
 // AddDualBounds
 Rcpp::List AddDualBounds(const arma::cube& path, Rcpp::NumericVector control_, Rcpp::Function Reward_, Rcpp::Function Scrap_, const arma::cube& mart, const arma::ucube& path_action);
-RcppExport SEXP rcss_AddDualBounds(SEXP pathSEXP, SEXP control_SEXP, SEXP Reward_SEXP, SEXP Scrap_SEXP, SEXP martSEXP, SEXP path_actionSEXP) {
+RcppExport SEXP _rcss_AddDualBounds(SEXP pathSEXP, SEXP control_SEXP, SEXP Reward_SEXP, SEXP Scrap_SEXP, SEXP martSEXP, SEXP path_actionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -56,7 +56,7 @@ END_RCPP
 }
 // AddDual
 arma::cube AddDual(const arma::cube& path, Rcpp::NumericVector subsim_, const arma::vec& weight, Rcpp::NumericVector value_, Rcpp::Function Scrap_);
-RcppExport SEXP rcss_AddDual(SEXP pathSEXP, SEXP subsim_SEXP, SEXP weightSEXP, SEXP value_SEXP, SEXP Scrap_SEXP) {
+RcppExport SEXP _rcss_AddDual(SEXP pathSEXP, SEXP subsim_SEXP, SEXP weightSEXP, SEXP value_SEXP, SEXP Scrap_SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -71,7 +71,7 @@ END_RCPP
 }
 // Expected
 arma::mat Expected(const arma::mat& grid, const arma::mat& value, const arma::cube& disturb, const arma::vec& weight);
-RcppExport SEXP rcss_Expected(SEXP gridSEXP, SEXP valueSEXP, SEXP disturbSEXP, SEXP weightSEXP) {
+RcppExport SEXP _rcss_Expected(SEXP gridSEXP, SEXP valueSEXP, SEXP disturbSEXP, SEXP weightSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -85,7 +85,7 @@ END_RCPP
 }
 // Bellman
 Rcpp::List Bellman(const arma::mat& grid, Rcpp::NumericVector reward_, const arma::cube& scrap, Rcpp::NumericVector control_, const arma::cube& disturb, const arma::vec& weight);
-RcppExport SEXP rcss_Bellman(SEXP gridSEXP, SEXP reward_SEXP, SEXP scrapSEXP, SEXP control_SEXP, SEXP disturbSEXP, SEXP weightSEXP) {
+RcppExport SEXP _rcss_Bellman(SEXP gridSEXP, SEXP reward_SEXP, SEXP scrapSEXP, SEXP control_SEXP, SEXP disturbSEXP, SEXP weightSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -101,7 +101,7 @@ END_RCPP
 }
 // FastAddDual
 arma::cube FastAddDual(const arma::cube& path, Rcpp::NumericVector subsim_, const arma::vec& weight, const arma::mat& grid, Rcpp::NumericVector value_, Rcpp::Function Scrap_);
-RcppExport SEXP rcss_FastAddDual(SEXP pathSEXP, SEXP subsim_SEXP, SEXP weightSEXP, SEXP gridSEXP, SEXP value_SEXP, SEXP Scrap_SEXP) {
+RcppExport SEXP _rcss_FastAddDual(SEXP pathSEXP, SEXP subsim_SEXP, SEXP weightSEXP, SEXP gridSEXP, SEXP value_SEXP, SEXP Scrap_SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -117,7 +117,7 @@ END_RCPP
 }
 // FastBellman
 Rcpp::List FastBellman(const arma::mat& grid, Rcpp::NumericVector reward_, const arma::cube& scrap, Rcpp::NumericVector control_, const arma::umat& r_index, const arma::cube& disturb, const arma::vec& weight, const std::size_t& n_smooth);
-RcppExport SEXP rcss_FastBellman(SEXP gridSEXP, SEXP reward_SEXP, SEXP scrapSEXP, SEXP control_SEXP, SEXP r_indexSEXP, SEXP disturbSEXP, SEXP weightSEXP, SEXP n_smoothSEXP) {
+RcppExport SEXP _rcss_FastBellman(SEXP gridSEXP, SEXP reward_SEXP, SEXP scrapSEXP, SEXP control_SEXP, SEXP r_indexSEXP, SEXP disturbSEXP, SEXP weightSEXP, SEXP n_smoothSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -135,7 +135,7 @@ END_RCPP
 }
 // FastExpected
 arma::mat FastExpected(const arma::mat& grid, const arma::mat& value, const arma::umat& r_index, const arma::cube& disturb, const arma::vec& weight, const std::size_t& n_smooth);
-RcppExport SEXP rcss_FastExpected(SEXP gridSEXP, SEXP valueSEXP, SEXP r_indexSEXP, SEXP disturbSEXP, SEXP weightSEXP, SEXP n_smoothSEXP) {
+RcppExport SEXP _rcss_FastExpected(SEXP gridSEXP, SEXP valueSEXP, SEXP r_indexSEXP, SEXP disturbSEXP, SEXP weightSEXP, SEXP n_smoothSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -151,7 +151,7 @@ END_RCPP
 }
 // FiniteAddDual
 arma::cube FiniteAddDual(const arma::cube& path, Rcpp::NumericVector path_disturb_, const arma::mat& grid, Rcpp::NumericVector value_, Rcpp::NumericVector expected_, const std::string& build, const std::size_t& k);
-RcppExport SEXP rcss_FiniteAddDual(SEXP pathSEXP, SEXP path_disturb_SEXP, SEXP gridSEXP, SEXP value_SEXP, SEXP expected_SEXP, SEXP buildSEXP, SEXP kSEXP) {
+RcppExport SEXP _rcss_FiniteAddDual(SEXP pathSEXP, SEXP path_disturb_SEXP, SEXP gridSEXP, SEXP value_SEXP, SEXP expected_SEXP, SEXP buildSEXP, SEXP kSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -166,9 +166,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// PathDisturb
+arma::cube PathDisturb(const arma::vec& start, Rcpp::NumericVector disturb_);
+RcppExport SEXP _rcss_PathDisturb(SEXP startSEXP, SEXP disturb_SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::vec& >::type start(startSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type disturb_(disturb_SEXP);
+    rcpp_result_gen = Rcpp::wrap(PathDisturb(start, disturb_));
+    return rcpp_result_gen;
+END_RCPP
+}
 // PathPolicy
 arma::ucube PathPolicy(const arma::cube& path, Rcpp::NumericVector control_, Rcpp::Function Reward_, Rcpp::NumericVector expected_);
-RcppExport SEXP rcss_PathPolicy(SEXP pathSEXP, SEXP control_SEXP, SEXP Reward_SEXP, SEXP expected_SEXP) {
+RcppExport SEXP _rcss_PathPolicy(SEXP pathSEXP, SEXP control_SEXP, SEXP Reward_SEXP, SEXP expected_SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -182,7 +194,7 @@ END_RCPP
 }
 // FastPathPolicy
 arma::ucube FastPathPolicy(const arma::cube& path, const arma::mat& grid, Rcpp::NumericVector control_, Rcpp::Function Reward_, Rcpp::NumericVector expected_);
-RcppExport SEXP rcss_FastPathPolicy(SEXP pathSEXP, SEXP gridSEXP, SEXP control_SEXP, SEXP Reward_SEXP, SEXP expected_SEXP) {
+RcppExport SEXP _rcss_FastPathPolicy(SEXP pathSEXP, SEXP gridSEXP, SEXP control_SEXP, SEXP Reward_SEXP, SEXP expected_SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -197,7 +209,7 @@ END_RCPP
 }
 // Optimal
 arma::mat Optimal(const arma::mat& grid, const arma::mat& subgradient);
-RcppExport SEXP rcss_Optimal(SEXP gridSEXP, SEXP subgradientSEXP) {
+RcppExport SEXP _rcss_Optimal(SEXP gridSEXP, SEXP subgradientSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -209,7 +221,7 @@ END_RCPP
 }
 // StochasticGrid
 arma::mat StochasticGrid(const arma::cube& path, const std::size_t& n_grid, const std::size_t& max_iter, const bool& warning);
-RcppExport SEXP rcss_StochasticGrid(SEXP pathSEXP, SEXP n_gridSEXP, SEXP max_iterSEXP, SEXP warningSEXP) {
+RcppExport SEXP _rcss_StochasticGrid(SEXP pathSEXP, SEXP n_gridSEXP, SEXP max_iterSEXP, SEXP warningSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -223,7 +235,7 @@ END_RCPP
 }
 // TestPolicy
 arma::vec TestPolicy(const std::size_t& start_position, const arma::cube& path, Rcpp::NumericVector control_, Rcpp::Function Reward_, Rcpp::Function Scrap_, const arma::ucube& path_action);
-RcppExport SEXP rcss_TestPolicy(SEXP start_positionSEXP, SEXP pathSEXP, SEXP control_SEXP, SEXP Reward_SEXP, SEXP Scrap_SEXP, SEXP path_actionSEXP) {
+RcppExport SEXP _rcss_TestPolicy(SEXP start_positionSEXP, SEXP pathSEXP, SEXP control_SEXP, SEXP Reward_SEXP, SEXP Scrap_SEXP, SEXP path_actionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -239,7 +251,7 @@ END_RCPP
 }
 // FullTestPolicy
 Rcpp::List FullTestPolicy(const std::size_t& start_position, const arma::cube& path, Rcpp::NumericVector control_, Rcpp::Function Reward_, Rcpp::Function Scrap_, const arma::ucube& path_action);
-RcppExport SEXP rcss_FullTestPolicy(SEXP start_positionSEXP, SEXP pathSEXP, SEXP control_SEXP, SEXP Reward_SEXP, SEXP Scrap_SEXP, SEXP path_actionSEXP) {
+RcppExport SEXP _rcss_FullTestPolicy(SEXP start_positionSEXP, SEXP pathSEXP, SEXP control_SEXP, SEXP Reward_SEXP, SEXP Scrap_SEXP, SEXP path_actionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -252,4 +264,30 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(FullTestPolicy(start_position, path, control_, Reward_, Scrap_, path_action));
     return rcpp_result_gen;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_rcss_AcceleratedBellman", (DL_FUNC) &_rcss_AcceleratedBellman, 7},
+    {"_rcss_AcceleratedExpected", (DL_FUNC) &_rcss_AcceleratedExpected, 5},
+    {"_rcss_AddDualBounds", (DL_FUNC) &_rcss_AddDualBounds, 6},
+    {"_rcss_AddDual", (DL_FUNC) &_rcss_AddDual, 5},
+    {"_rcss_Expected", (DL_FUNC) &_rcss_Expected, 4},
+    {"_rcss_Bellman", (DL_FUNC) &_rcss_Bellman, 6},
+    {"_rcss_FastAddDual", (DL_FUNC) &_rcss_FastAddDual, 6},
+    {"_rcss_FastBellman", (DL_FUNC) &_rcss_FastBellman, 8},
+    {"_rcss_FastExpected", (DL_FUNC) &_rcss_FastExpected, 6},
+    {"_rcss_FiniteAddDual", (DL_FUNC) &_rcss_FiniteAddDual, 7},
+    {"_rcss_PathDisturb", (DL_FUNC) &_rcss_PathDisturb, 2},
+    {"_rcss_PathPolicy", (DL_FUNC) &_rcss_PathPolicy, 4},
+    {"_rcss_FastPathPolicy", (DL_FUNC) &_rcss_FastPathPolicy, 5},
+    {"_rcss_Optimal", (DL_FUNC) &_rcss_Optimal, 2},
+    {"_rcss_StochasticGrid", (DL_FUNC) &_rcss_StochasticGrid, 4},
+    {"_rcss_TestPolicy", (DL_FUNC) &_rcss_TestPolicy, 6},
+    {"_rcss_FullTestPolicy", (DL_FUNC) &_rcss_FullTestPolicy, 6},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_rcss(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }

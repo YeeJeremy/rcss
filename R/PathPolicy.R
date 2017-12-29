@@ -3,6 +3,6 @@
 ################################################################################
 
 PathPolicy <- function(path, control, Reward, expected) {
-    .Call('rcss_PathPolicy', PACKAGE = 'rcss', path, control, Reward,
+    .Call('_rcss_PathPolicy', PACKAGE = 'rcss', path, control, Reward,
           expected)
 }

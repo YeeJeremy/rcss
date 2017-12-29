@@ -3,6 +3,6 @@
 ################################################################################
 
 FastPathPolicy <- function(path, grid, control, Reward, expected) {
-    .Call('rcss_FastPathPolicy', PACKAGE = 'rcss', path, grid, control, Reward,
+    .Call('_rcss_FastPathPolicy', PACKAGE = 'rcss', path, grid, control, Reward,
           expected)
 }

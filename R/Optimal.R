@@ -3,5 +3,5 @@
 ################################################################################
 
 Optimal <- function(grid, tangent) {
-    .Call('rcss_Optimal', PACKAGE = 'rcss', grid, tangent)
+    .Call('_rcss_Optimal', PACKAGE = 'rcss', grid, tangent)
 }

@@ -3,7 +3,7 @@
 ################################################################################
 
 AcceleratedBellman <- function(grid, reward, scrap, control, disturb, weight, k = 1) {
-    output <- .Call('rcss_AcceleratedBellman', PACKAGE = 'rcss', grid,
+    output <- .Call('_rcss_AcceleratedBellman', PACKAGE = 'rcss', grid,
                     reward, scrap, control, disturb, weight, k)
     ## Put output into correct format
     n_grid <- nrow(grid)

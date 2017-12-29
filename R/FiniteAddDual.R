@@ -3,6 +3,6 @@
 ################################################################################
 
 FiniteAddDual <- function(path, disturb, grid, value, expected, build = "fast", k = 1) {
-    .Call('rcss_FiniteAddDual', PACKAGE = 'rcss', path, disturb, grid, value,
+    .Call('_rcss_FiniteAddDual', PACKAGE = 'rcss', path, disturb, grid, value,
           expected, build, k)
 }

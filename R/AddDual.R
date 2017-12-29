@@ -3,5 +3,5 @@
 ################################################################################
 
 AddDual <- function(path, subsim, weight, value, Scrap) {
-    .Call('rcss_AddDual', PACKAGE = 'rcss', path, subsim, weight, value, Scrap)
+    .Call('_rcss_AddDual', PACKAGE = 'rcss', path, subsim, weight, value, Scrap)
 }
