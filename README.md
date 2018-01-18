@@ -10,6 +10,12 @@ by email (jeremyyee@outlook.com.au) or through my github account to
 report any issues. An implementation in the *Julia* language is also
 available on my GitHub page.
 
+## Documentation
+
+A vignette can be found
+[here](https://github.com/YeeJeremy/vignettes/blob/master/rcss.pdf)
+and the manual can be found [here](https://github.com/YeeJeremy/RPackageManuals/blob/master/rcss-manual.pdf).
+
 ## Problem setting
 
 We impose the following restrictions on our Markov decision process:
